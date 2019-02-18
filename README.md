@@ -1,2 +1,2 @@
 # WPL
-WPL - A weighted partial likelihood approach for zero-truncated model
+WPL - A weighted partial likelihood approach for zero-truncated models
