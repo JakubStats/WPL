@@ -1,7 +1,7 @@
 ---
-title: "R-tutorial: A weighted partial likelihood approach for zero-truncated models"
+title: "`R`-tutorial: A weighted partial likelihood approach for zero-truncated models"
 author: "Wen-Han Hwang, Dean Heinze and Jakub Stoklosa"
-date: "19th February 2019"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes: # Allows you to add in your own Latex packages.
 - \usepackage{float} # Use the 'float' package.
 - \floatplacement{figure}{H} #make every figure with caption = h

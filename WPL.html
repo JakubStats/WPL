@@ -184,9 +184,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">R-tutorial: A weighted partial likelihood approach for zero-truncated models</h1>
+<h1 class="title toc-ignore"><code>R</code>-tutorial: A weighted partial likelihood approach for zero-truncated models</h1>
 <h4 class="author"><em>Wen-Han Hwang, Dean Heinze and Jakub Stoklosa</em></h4>
-<h4 class="date"><em>19th February 2019</em></h4>
+<h4 class="date"><em>24 February, 2019</em></h4>
 
 </div>
 
@@ -382,21 +382,18 @@ AIC.glm2 </code></pre>
 # glmnet() uses cross-validation to select lambda, thus the data is randomly 
 # split and will consist of different training/test sets for each fit.
 t(mod3.coef) </code></pre>
-<pre><code>##             [,1]            [,2]            [,3]           
-## name        &quot;(Intercept)&quot;   &quot;emer&quot;          &quot;hosp&quot;         
-## coefficient &quot; 1.9748891168&quot; &quot; 0.0245620749&quot; &quot; 0.1483953466&quot;
-##             [,4]            [,5]            [,6]           
-## name        &quot;numchron&quot;      &quot;adldiff&quot;       &quot;age&quot;          
-## coefficient &quot; 0.1037191043&quot; &quot; 0.1331988861&quot; &quot;-0.0660542362&quot;
-##             [,7]            [,8]            [,9]           
-## name        &quot;gender&quot;        &quot;married&quot;       &quot;school&quot;       
-## coefficient &quot;-0.0009455852&quot; &quot;-0.0590069771&quot; &quot; 0.0153665294&quot;
-##             [,10]           [,11]           [,12]          
-## name        &quot;faminc&quot;        &quot;employed&quot;      &quot;privins&quot;      
-## coefficient &quot;-0.0002751290&quot; &quot; 0.0106834275&quot; &quot; 0.0936077806&quot;
-##             [,13]          
-## name        &quot;medicaid&quot;     
-## coefficient &quot; 0.1253396643&quot;</code></pre>
+<pre><code>##             [,1]           [,2]           [,3]           [,4]          
+## name        &quot;(Intercept)&quot;  &quot;emer&quot;         &quot;hosp&quot;         &quot;numchron&quot;    
+## coefficient &quot; 1.992925593&quot; &quot; 0.025453313&quot; &quot; 0.148948934&quot; &quot; 0.105147152&quot;
+##             [,5]           [,6]           [,7]           [,8]          
+## name        &quot;adldiff&quot;      &quot;age&quot;          &quot;gender&quot;       &quot;married&quot;     
+## coefficient &quot; 0.139470055&quot; &quot;-0.071870273&quot; &quot;-0.004121854&quot; &quot;-0.063772963&quot;
+##             [,9]           [,10]          [,11]          [,12]         
+## name        &quot;school&quot;       &quot;faminc&quot;       &quot;employed&quot;     &quot;privins&quot;     
+## coefficient &quot; 0.016418469&quot; &quot;-0.001426251&quot; &quot; 0.022258605&quot; &quot; 0.108984674&quot;
+##             [,13]         
+## name        &quot;medicaid&quot;    
+## coefficient &quot; 0.143395709&quot;</code></pre>
 </div>
 </div>
 
