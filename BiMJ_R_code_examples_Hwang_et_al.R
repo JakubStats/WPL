@@ -664,8 +664,8 @@ est.names <- c("MLE-Saturated", "WPL-AIC", "WPL-Elastic Net")
 
 # Set the family here:
 
-#family <- "binomial"; m <- 10 # Figure 5.
-family <- "poisson"; m<-0  # Figure 6.
+family <- "binomial"; m <- 10 # Figure 5.
+#family <- "poisson"; m<-0  # Figure 6.
 
 n <- 100 # Set the sample size.
 
@@ -826,8 +826,8 @@ while (i<=simn){
       preds.te <- preds.te0/(1 - exp(-preds.te0))
       var.y.te <- preds.te-preds.te^2*exp(-preds.te0)
       
-      VGAM.SPR.te <- sum((y.te - preds.te)^2/var.y.te)/n.te
-      VGAM.DS.te <- sum((y.te - preds.te)^2/var.y.te + log(var.y.te))/n.te
+      VGAM.SPR.te <- sum((y.te - preds.te)^2 / var.y.te)/n.te
+      VGAM.DS.te <- sum((y.te - preds.te)^2 / var.y.te + log(var.y.te))/n.te
       VGAM.MSE.te <- sum((y.te - preds.te)^2)/n.te
       VGAM.MAE.te <- sum(abs(y.te - preds.te))/n.te
     }
@@ -867,7 +867,7 @@ while (i<=simn){
       dat2b <- X.te[,which(names(coef(est))%in%var.sel)]
       preds.te0 <- c(H(AIC.glm%*%t(as.matrix(dat2b))))
       mu.te <- m*preds.te0
-      pi.te <- 1-(1-mu.te/m)^m
+      pi.te <- 1-(1-mu.te / m)^m
       y.hat.te <- mu.te/pi.te
       var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te - m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
@@ -935,7 +935,7 @@ while (i<=simn){
                          s = cv.glmnet(as.matrix(X.tr[, -1]), Y.tr, family = "binomial", weights = m.tilde.star.tr)$lambda.min,
                          type = "response", newweights = weight0.tr)
       mu.tr <- m*preds.tr0
-      pi.tr <- 1-(1 - mu.tr/m)^m
+      pi.tr <- 1-(1 - mu.tr / m)^m
       y.hat.tr <- mu.tr/pi.tr
       var.hat.tr <- m*preds.tr0*(1 - preds.tr0)/pi.tr - m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
