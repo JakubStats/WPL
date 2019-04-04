@@ -1,14 +1,15 @@
 #--------------------------------------------------------------------------------------------------------
-# The R-code given below contains functions/analysis that was used for the manuscript (ms) by Hwang, 
-# Heinze and Stoklosa submitted to Biometrical Journal.
+# The R-file given below contains functions/analysis used in the manuscript by Hwang, Heinze and Stoklosa 
+# submitted to Biometrical Journal.
 # 
-# First we give the necessary functions to reproduce all figures, tables and simulations presented 
-# in the manuscript.
+# First, we give the necessary R-packages and functions to reproduce all figures, tables and simulations 
+# presented in the manuscript.
 #
-# All analysis below replicates our simulation studies and two examples. This R-file is presented
-# into 3 seperate parts (efficiency figures, two simulation studies and two examples) where each part 
-# corresponds to figures and tables produced in the manuscript. The results should be almost exact 
-# as set.seed() was used.
+# The analysis given below replicates our simulation studies and two examples. 
+#
+# The R-file presented below is split into 3 seperate parts (efficiency figures, two simulation studies 
+# and two examples) where each part corresponds to figures and tables produced in the manuscript. The 
+# results should be almost exact as set.seed() was used.
 # 
 # Further details regarding the simulation setup and model structure etc. are given in the manuscript
 #
@@ -19,7 +20,7 @@
 # These programs are meant to be used for non-commercial purposes only.
 #--------------------------------------------------------------------------------------------------------
 
-# Required R-Packages for all components given below (please install/load these).
+# Required R-Packages for all components given below (please install/load these first).
 
 library(ggplot2)
 library(VGAM)
@@ -40,7 +41,7 @@ library(grid)
 
 # **IMPORTANT**
 
-# Below are the required functions to generate, fit, plot and tabulate the results. Make sure these 
+# Below we give the required functions to generate, fit, plot and tabulate the results. Make sure these 
 # functions are all stored and loaded first in your R console before running the sims and examples.
 
 # Inverse logit function.
@@ -64,7 +65,7 @@ VarNhat.glm <- function(m, tau, y = NULL){
   Nhat <- sum(Pi^(-1)) # Population size (Horvitz-Thompson) estimator.
   
   # Standard error estimator using the "sandwich" package. Below we give the
-  # standard error estimator for Nhat, see Huggins(1989) for further details.
+  # standard error estimator for Nhat, see Huggins (1989) for further details.
   
   var.beta <- sandwich(m) # Variance estimates for model regression coefficients (beta).
   gdash.beta <- t(X)%*%(Pi^(-2)*(1 - P)^tau*tau*P)
@@ -101,7 +102,7 @@ pl.avar2 <- function(lam,K)
   a <- (lam - q)/(lam*q)
   
   y <- 1:K
-  g.m <- y-1-outer(y/(y + 1),lam)
+  g.m <- y-1-outer(y/(y + 1), lam)
   py.m <- t(outer(lam,y,"^")*p/q)
   py.m <- py.m/gamma(y + 1)
   eg2 <- apply(g.m^2*py.m,2,sum)
@@ -117,10 +118,10 @@ binpl.avar <- function(p,k){
   a <- k-k1*ey1.inv
   y <- 1:k
   c <- (k*y - 1)/(y + 1)
-  g.m <- y-1-outer(c,p)
-  py.m0 <- (outer(p,y,"^")*outer(q,k - y,"^"))/pi
-  py.m <- t(py.m0)*choose(k,y)
-  eg2 <- apply(g.m^2*py.m,2,sum)
+  g.m <- y-1-outer(c, p)
+  py.m0 <- (outer(p, y,  "^")*outer(q,k - y, "^"))/pi
+  py.m <- t(py.m0)*choose(k, y)
+  eg2 <- apply(g.m^2*py.m, 2, sum)
   
   eg2/(a^2)
 }
@@ -563,7 +564,7 @@ for(jjj in 1:4)
       }
       
       t.tilde <- 1-t_i
-      t.tilde.star <- y/(y+1)
+      t.tilde.star <- y/(y + 1)
       y.tilde <- y-1
       
       # Naive.    
@@ -605,13 +606,13 @@ for(jjj in 1:4)
     esttheta.MSE1 <- apply((esttheta1 - theta[2])^2, 2, mean.na)
     esttheta.MSE <- rbind(esttheta.MSE, esttheta.MSE1 / esttheta.MSE1[3])
     
-    esttheta.MSE_n <- c(esttheta.MSE_n,c(round(esttheta.MSE1[1], digits = 3),
-                                       9,round(esttheta.MSE1[2], digits = 3),
-                                       9,round(esttheta.MSE1[3], digits = 3),
+    esttheta.MSE_n <- c(esttheta.MSE_n, c(round(esttheta.MSE1[1], digits = 3),
+                                       9, round(esttheta.MSE1[2], digits = 3),
+                                       9, round(esttheta.MSE1[3], digits = 3),
                                        9))
   }
   
-  esttheta.MSE_print <- rbind(esttheta.MSE_print,c(9, esttheta.MSE_n))
+  esttheta.MSE_print <- rbind(esttheta.MSE_print, c(9, esttheta.MSE_n))
   
   esttheta.MSE <- esttheta.MSE[, -3]
   
@@ -802,7 +803,7 @@ while (i<=simn){
       
       preds.te0 <- c(H(coef(a1)%*%t(as.matrix(dat2))))
       mu.te <- m*preds.te0
-      pi.te <- 1-(1 - mu.te/m)^m
+      pi.te <- 1-(1 - mu.te / m)^m
       y.hat.te <- mu.te/pi.te
       var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te - m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
