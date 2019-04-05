@@ -183,7 +183,7 @@ colnames(X)[1] <- "(Intercept)"
 
 ### Fit models and apply model selection (AIC and GLMNET):
 ```{r, echo=TRUE}
-# Construct WPL weights to feed into glm() and glmnet().
+# Construct WPL weights which feed into glm() and glmnet().
 
 t.tilde.star <- y/(y + 1)
 y.tilde <- y-1

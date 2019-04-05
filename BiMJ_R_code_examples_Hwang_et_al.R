@@ -863,7 +863,7 @@ while (i<=simn){
       mu.tr <- m*preds.tr0
       pi.tr <- 1-(1 - mu.tr / m)^m
       y.hat.tr <- mu.tr/pi.tr
-      var.hat.tr<-m*preds.tr0*(1 - preds.tr0)/pi.tr-m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
+      var.hat.tr<-m*preds.tr0*(1 - preds.tr0)/pi.tr - m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
       dat2b <- X.te[,which(names(coef(est))%in%var.sel)]
       preds.te0 <- c(H(AIC.glm%*%t(as.matrix(dat2b))))
