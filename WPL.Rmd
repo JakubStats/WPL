@@ -85,7 +85,7 @@ VarNhat.glm <- function(m, tau, y = NULL){
   # Standard error estimator using the "sandwich" package. Below we give the
   # standard error estimator for Nhat, see Huggins(1989) for further details.
   
-  var.beta <- sandwich(m) # Variance estimates for model regression coefficients (beta).
+  var.beta <- sandwich(m) # Variance estimates for model regression coefs (beta).
   gdash.beta <- t(X)%*%(Pi^(-2)*(1 - P)^tau*tau*P)
   varA<-sum((1 - Pi)/Pi^2)
   varB <- (t(gdash.beta)%*%var.beta)%*%gdash.beta
@@ -172,7 +172,7 @@ dt[, 14] <- as.numeric(dt[, 14])-1
 
 ### Remove all zero counts from data to create artificial zero-truncated data:
 ```{r, echo=TRUE}
-dt2 <- dt[-which(dt$ofp==0), ]
+dt2 <- dt[-which(dt$ofp == 0), ]
 
 y <- dt2$ofp
 n <- length(y)

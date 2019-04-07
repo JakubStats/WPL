@@ -8,12 +8,13 @@
 # The analysis given below replicates our simulation studies and two examples. 
 #
 # The R-file presented below is split into 3 seperate parts (efficiency figures, two simulation studies 
-# and two examples) where each part corresponds to figures and tables produced in the manuscript. The 
-# results should be almost exact as set.seed() was used.
+# and two examples) where each part corresponds to figures and tables produced in the manuscript. These 
+# results should be almost exact as set.seed() was used for some of the parts.
 # 
 # Further details regarding the simulation setup and model structure etc. are given in the manuscript
+# and in an Rmarkdown tutorial (submitted with the manuscript).
 #
-# Authors: Wen-Han Hwang (wenhan.hwang@gmail.com) and Jakub Stoklosa (j.stoklosa@unsw.edu.au).
+# Authors: Jakub Stoklosa (j.stoklosa@unsw.edu.au) and Wen-Han Hwang (wenhan.hwang@gmail.com).
 #
 # Please report any problems/suggestions to the authors listed above.
 #
@@ -150,14 +151,14 @@ multiplot <- function(..., plotlist = NULL, file, cols = 1, layout = NULL){
     layout <- matrix(seq(1, cols*ceiling(numPlots / cols)), ncol = cols, nrow = ceiling(numPlots / cols))
   }
   
-  if (numPlots == 1){
+  if (numPlots  ==  1){
     print(plots[[1]])
   }else{
   grid.newpage()
   pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
   
   for(i in 1:numPlots){
-      matchidx <- as.data.frame(which(layout==i, arr.ind = TRUE))
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
       print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row, layout.pos.col = matchidx$col))
   }
   }
@@ -190,7 +191,7 @@ for(i in 1:length(Ns)){
   ref <- c(ref, list(bin.ref))
 }
 
-my.title1 <- bquote("m"==.(Ns[1]))
+my.title1 <- bquote("m" == .(Ns[1]))
 ref1 <- ref[[1]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -202,7 +203,7 @@ p_1 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.6, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[2]))
+my.title1 <- bquote("m" == .(Ns[2]))
 ref1 <- ref[[2]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -214,7 +215,7 @@ p_2 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.6, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[3]))
+my.title1 <- bquote("m" == .(Ns[3]))
 ref1 <- ref[[3]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -226,7 +227,7 @@ p_3 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.6, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[4]))
+my.title1 <- bquote("m" == .(Ns[4]))
 ref1 <- ref[[4]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -238,7 +239,7 @@ p_4 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.75, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[5]))
+my.title1 <- bquote("m" == .(Ns[5]))
 ref1 <- ref[[5]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -250,7 +251,7 @@ p_5 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.75, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[6]))
+my.title1 <- bquote("m" == .(Ns[6]))
 ref1 <- ref[[6]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -262,7 +263,7 @@ p_6 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.75, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[7]))
+my.title1 <- bquote("m" == .(Ns[7]))
 ref1 <- ref[[7]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -274,7 +275,7 @@ p_7 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.8, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[8]))
+my.title1 <- bquote("m" == .(Ns[8]))
 ref1 <- ref[[8]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -286,7 +287,7 @@ p_8 <- ggplot(ref1, aes(x = p, y = efficiency, colour = model, group = model)) +
   scale_color_manual(values = c("Red", "Blueviolet")) + ylim(0.8, 1.05) + 
   geom_hline(aes(yintercept = 1), colour = "grey", linetype = "dashed")
 
-my.title1 <- bquote("m"==.(Ns[9]))
+my.title1 <- bquote("m" == .(Ns[9]))
 ref1 <- ref[[9]]
 colnames(ref1) <- c("PL", "WPL")
 ref1 <- stack(as.data.frame(ref1))
@@ -364,12 +365,12 @@ for(jjj in 1:4){
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
   
-  if(jjj == 1) theta <- c(-1, 1)
-  if(jjj == 2) theta <- c(1.5, -0.5)
-  if(jjj == 3) theta <- c(-1, 1)
-  if(jjj == 4) theta <- c(1.5, -0.5)
-  if(jjj == 5) theta <- c(-1, 1)
-  if(jjj == 6) theta <- c(1.5, -0.5)
+  if(jjj  ==  1) theta <- c(-1, 1)
+  if(jjj  ==  2) theta <- c(1.5, -0.5)
+  if(jjj  ==  3) theta <- c(-1, 1)
+  if(jjj  ==  4) theta <- c(1.5, -0.5)
+  if(jjj  ==  5) theta <- c(-1, 1)
+  if(jjj  ==  6) theta <- c(1.5, -0.5)
   
   for(n in ns){ 
     print(n)
@@ -380,14 +381,14 @@ for(jjj in 1:4){
     esttheta.MSE1 <- matrix(NA, simn, length(est.names))
     
     while(i <= simn){
-      if (jjj==1 || jjj==2) x<-rnorm(n)
+      if (jjj == 1 || jjj == 2) x<-rnorm(n)
       
-      if (jjj==3 || jjj==4){
+      if (jjj == 3 || jjj == 4){
         x <- rchisq(n, 3)
         x <- (x - mean(x))/sd(x)
         x[which(abs(x) > 3)] <- 3
       }
-      if (jjj==5 || jjj==6){
+      if (jjj == 5 || jjj == 6){
         x <- runif(n, -3, 3)
         x <- (x - mean(x))/sd(x)
       }
@@ -398,7 +399,7 @@ for(jjj in 1:4){
       t_i<-c()
       
       for(jj in 1:length(y)){
-        if (y[jj]==m){t1 <- 1}
+        if (y[jj] == m){t1 <- 1}
         if (y[jj]!=m){
           pty <- choose(m - (1:m), y[jj] - 1)/choose(m, y[jj])
           t1 <- sample(1:m, 1, prob = pty)
@@ -436,7 +437,7 @@ for(jjj in 1:4){
       
       dat1 <- data.frame(cbind(y, x))
       a4 <- try(vglm(cbind(y, m - y) ~ x, posbinomial, data = dat1), silent = TRUE)
-      if(class(a4)=="try-error"){
+      if(class(a4) == "try-error"){
         VGAM.coef <- NA
         a4.se <- NA
       }
@@ -472,12 +473,12 @@ for(jjj in 1:4){
   
   esttheta.MSE <- stack(as.data.frame(esttheta.MSE))
   
-  if (jjj==1) beta_names <- "Scenario I"
-  if (jjj==2) beta_names <- "Scenario II"
-  if (jjj==3) beta_names <- "Scenario III"
-  if (jjj==4) beta_names <- "Scenario IV"
-  if (jjj==5) beta_names <- "Scenario V"
-  if (jjj==6) beta_names <- "Scenario VI"
+  if (jjj == 1) beta_names <- "Scenario I"
+  if (jjj == 2) beta_names <- "Scenario II"
+  if (jjj == 3) beta_names <- "Scenario III"
+  if (jjj == 4) beta_names <- "Scenario IV"
+  if (jjj == 5) beta_names <- "Scenario V"
+  if (jjj == 6) beta_names <- "Scenario VI"
   
   esttheta.MSE <- cbind(esttheta.MSE, rep(ns, 2), rep(beta_names, 6))
   colnames(esttheta.MSE) <- c("Rel.MSE", "model", "n", "beta")
@@ -529,10 +530,10 @@ for(jjj in 1:4)
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
   
-  if(jjj==1) theta <- c(-1, 0.5)
-  if(jjj==2) theta <- c(0.5, -1)
-  if(jjj==3) theta <- c(-1, 0.5)
-  if(jjj==4) theta <- c(0.5, -1)
+  if(jjj == 1) theta <- c(-1, 0.5)
+  if(jjj == 2) theta <- c(0.5, -1)
+  if(jjj == 3) theta <- c(-1, 0.5)
+  if(jjj == 4) theta <- c(0.5, -1)
   
   for(n in ns){
     print(n)
@@ -545,9 +546,9 @@ for(jjj in 1:4)
     
     while(i<=simn)
       {
-      if(jjj==1 || jjj==2){x <- rnorm(n)}
+      if(jjj == 1 || jjj == 2){x <- rnorm(n)}
       
-      if(jjj==3 || jjj==4){
+      if(jjj == 3 || jjj == 4){
         x <- rchisq(n, 3)
         x <- (x - mean(x))/sd(x) 
         x[which(abs(x)>3)] <- 3
@@ -586,7 +587,7 @@ for(jjj in 1:4)
       
       dat1 <- data.frame(cbind(y, x))
       a4 <- try(vglm(y ~ x, pospoisson, data = dat1), silent = TRUE)
-      if (class(a4)=="try-error"){
+      if (class(a4) == "try-error"){
         VGAM.coef <- NA
         a4.se <- NA
       }
@@ -622,12 +623,12 @@ for(jjj in 1:4)
   
   esttheta.MSE <- stack(as.data.frame(esttheta.MSE))
   
-  if (jjj==1) beta_names <- "Scenario I"
-  if (jjj==2) beta_names <- "Scenario II"
-  if (jjj==3) beta_names <- "Scenario III"
-  if (jjj==4) beta_names <- "Scenario IV"
-  if (jjj==5) beta_names <- "Scenario V"
-  if (jjj==6) beta_names <- "Scenario VI"
+  if (jjj == 1) beta_names <- "Scenario I"
+  if (jjj == 2) beta_names <- "Scenario II"
+  if (jjj == 3) beta_names <- "Scenario III"
+  if (jjj == 4) beta_names <- "Scenario IV"
+  if (jjj == 5) beta_names <- "Scenario V"
+  if (jjj == 6) beta_names <- "Scenario VI"
   
   esttheta.MSE <- cbind(esttheta.MSE, rep(ns, 2), rep(beta_names, 6))
   colnames(esttheta.MSE) <- c("Rel.MSE", "model", "n", "beta")
@@ -670,8 +671,8 @@ family <- "binomial"; m <- 10 # Figure 5.
 
 n <- 100 # Set the sample size.
 
-if (family=="binomial") p <- 10; theta <- c(1, 3, 1.5, 0, 0, 2, 0, 0, 0, 0, 1)/3
-if (family=="poisson") p <- 10; theta <- c(1, 3, 1.5, 0, 0, 2, 0, 0, 0, 0, 1)/3
+if (family == "binomial") p <- 10; theta <- c(1, 3, 1.5, 0, 0, 2, 0, 0, 0, 0, 1)/3
+if (family == "poisson") p <- 10; theta <- c(1, 3, 1.5, 0, 0, 2, 0, 0, 0, 0, 1)/3
 
 start <- Sys.time()
 
@@ -700,36 +701,36 @@ while (i<=simn){
   colnames(X)[1] <- c("(Intercept)")
   X <- as.matrix(X)
   
-  if (family=="binomial") pr <- H(drop(X%*%theta))
-  if (family=="poisson")lambda <- exp(drop(X%*%theta))
+  if (family == "binomial") pr <- H(drop(X%*%theta))
+  if (family == "poisson")lambda <- exp(drop(X%*%theta))
   
-  if (family=="binomial") y <- rposbinom(n, m, pr)
-  if (family=="poisson") y <- rpospois(n, lambda)
+  if (family == "binomial") y <- rposbinom(n, m, pr)
+  if (family == "poisson") y <- rpospois(n, lambda)
   
   t_i <- c()
   
   for(jj in 1:length(y)){
-    if (family=="binomial"){
-      if (y[jj]==m) t1 <- 1
+    if (family == "binomial"){
+      if (y[jj] == m) t1 <- 1
       if (y[jj]!=m){
         pty <- choose(m - (1:m), y[jj] - 1)/choose(m, y[jj])
         t1 <- sample(1:m, 1, prob = pty)
       }
     }
     
-    if (family=="poisson") t1 <- min(runif(y[jj]))
+    if (family == "poisson") t1 <- min(runif(y[jj]))
     
     t_i <- c(t_i, t1)
   }
   
-  if (family=="binomial"){
+  if (family == "binomial"){
     m.tilde <- m - t_i
     m.tilde.star <- m-(m + 1)/(y + 1)
     y.tilde <- y-1
     y.wpl <- y.tilde/m.tilde.star
   }
   
-  if (family=="poisson"){
+  if (family == "poisson"){
     t.tilde.star <- y/(y + 1)
     y.tilde <- y-1
   }
@@ -748,7 +749,7 @@ while (i<=simn){
   X.tr <- X[train, ]
   X.te <- as.data.frame(X[test, ])
   
-  if (family=="binomial"){
+  if (family == "binomial"){
     y.wpl.tr <- y.wpl[train]
     y.wpl.te <- y.wpl[test]
     
@@ -756,7 +757,7 @@ while (i<=simn){
     m.tilde.star.te <- m.tilde.star[test]
   }
   
-  if (family=="poisson"){
+  if (family == "poisson"){
     y.tilde.tr <- y.tilde[train]
     y.tilde.te <- y.tilde[test]
     
@@ -770,10 +771,10 @@ while (i<=simn){
   
   dat1 <- data.frame(cbind(y.tr, X.tr))
   
-  if (family=="binomial") a1 <- try(vglm(cbind(y.tr, m - y.tr) ~ X.tr - 1, posbinomial, data = dat1), silent = TRUE)
-  if (family=="poisson") a1 <- try(vglm(y.tr ~ X.tr - 1, pospoisson, data = dat1), silent = TRUE)
+  if (family == "binomial") a1 <- try(vglm(cbind(y.tr, m - y.tr) ~ X.tr - 1, posbinomial, data = dat1), silent = TRUE)
+  if (family == "poisson") a1 <- try(vglm(y.tr ~ X.tr - 1, pospoisson, data = dat1), silent = TRUE)
   
-  if(class(a1)=="try-error"){
+  if(class(a1) == "try-error"){
     VGAM.SPR.tr <- NA
     VGAM.DS.tr <- NA
     VGAM.MSE.tr <- NA
@@ -789,7 +790,7 @@ while (i<=simn){
     dat2 <- data.frame(X.te)
     names(dat2) <- names(coef(a1))
     
-    if (family=="binomial"){
+    if (family == "binomial"){
       preds.tr0 <- c(H(coef(a1)%*%t(as.matrix(dat1[, -1]))))
       mu.tr <- m*preds.tr0
       pi.tr <- 1-(1 - mu.tr / m)^m
@@ -813,7 +814,7 @@ while (i<=simn){
       VGAM.MAE.te <- sum(abs(y.te - y.hat.te))/n.te
     }
     
-    if (family=="poisson"){
+    if (family == "poisson"){
       preds.tr0 <- c(exp(coef(a1)%*%t(as.matrix(dat1[,-1]))))
       preds.tr <- preds.tr0/(1 - exp(-preds.tr0))
       var.y.tr <- preds.tr-preds.tr^2*exp(-preds.tr0)
@@ -836,13 +837,13 @@ while (i<=simn){
   
   # WPL using StepAIC.
   
-  if (family=="binomial") est <- try(glm(y.wpl.tr ~ X.tr - 1, weights = m.tilde.star.tr, family = binomial), silent = TRUE)
-  if (family=="poisson"){
+  if (family == "binomial") est <- try(glm(y.wpl.tr ~ X.tr - 1, weights = m.tilde.star.tr, family = binomial), silent = TRUE)
+  if (family == "poisson"){
     offs <- log(t.tilde.star.tr)
     est <- try(glm(y.tilde.tr ~ X.tr - 1 + offset(offs), family = poisson), silent = TRUE)
   }
   
-  if (class(est)[1]=="try-error"){
+  if (class(est)[1] == "try-error"){
     WPL.AIC.SPR.tr <- NA
     WPL.AIC.DS.tr <- NA
     WPL.AIC.MSE.tr <- NA
@@ -855,7 +856,7 @@ while (i<=simn){
   }
   
   if (class(est)[1]!="try-error"){
-    if (family=="binomial"){
+    if (family == "binomial"){
       AIC.glm <- stepAIC(est, trace = FALSE, direction = c("backward"))$coefficients
       var.sel <- names(AIC.glm)
       dat2a <- X.tr[, which(names(coef(est))%in%var.sel)]
@@ -883,7 +884,7 @@ while (i<=simn){
       WPL.AIC.MAE.te <- sum((y.te - y.hat.te)^2)/n.te
     }
     
-    if (family=="poisson"){
+    if (family == "poisson"){
       AIC.glm <- stepAIC(est,trace = FALSE, direction = c("backward"))$coefficients
       var.sel <- names(AIC.glm)
       dat2a <- X.tr[, which(names(coef(est))%in%var.sel)]
@@ -912,14 +913,14 @@ while (i<=simn){
   
   # WPL.
   
-  if (family=="binomial"){
+  if (family == "binomial"){
     Y.tr <- cbind(1 - y.wpl.tr, y.wpl.tr)
     est<-try(glmnet(as.matrix(X.tr[, -1]), Y.tr,
                     family = "binomial", weights = m.tilde.star.tr), silent = TRUE)
   }
   
-  if (family=="poisson") est <- try(glmnet(X.tr[, -1], y.tilde.tr, family = "poisson", offset = log(t.tilde.star.tr)), silent = TRUE)
-  if (class(est)[1]=="try-error"){
+  if (family == "poisson") est <- try(glmnet(X.tr[, -1], y.tilde.tr, family = "poisson", offset = log(t.tilde.star.tr)), silent = TRUE)
+  if (class(est)[1] == "try-error"){
     WPL.GLMNET.SPR.tr <- NA
     WPL.GLMNET.DS.tr <- NA
     WPL.GLMNET.MSE.tr <- NA
@@ -930,7 +931,7 @@ while (i<=simn){
     WPL.GLMNET.MAE.te <- NA
   }
   if (class(est)[1]!="try-error"){
-    if (family=="binomial"){
+    if (family == "binomial"){
       weight0.tr <- rep(1, n.tr)
       preds.tr0 <- predict(est,as.matrix(X.tr[, -1]),
                          s = cv.glmnet(as.matrix(X.tr[, -1]), Y.tr, family = "binomial", weights = m.tilde.star.tr)$lambda.min,
@@ -960,7 +961,7 @@ while (i<=simn){
       WPL.GLMNET.MAE.te <- sum(abs(y.te - y.hat.te))/n.te
     }
     
-    if (family=="poisson"){
+    if (family == "poisson"){
       offset0.tr <- rep(0,n.tr)
       offset0.te <- rep(0,n.te)
       preds.tr0 <- predict(est,X.tr[, -1],
@@ -1021,14 +1022,14 @@ colnames(b2_mat) <- c("SPR1", "method")
 colnames(b4_mat) <- c("DS2", "method")
 colnames(b5_mat) <- c("SPR2", "method")
 
-if (family=="poisson"){
+if (family == "poisson"){
   my.title1 <- c("Positive-Poisson (training) data")
   my.title2 <- c("Positive-Poisson (training) data")
   my.title4 <- c("Positive-Poisson (test) data")
   my.title5 <- c("Positive-Poisson (test) data")
 }
 
-if (family=="binomial"){
+if (family == "binomial"){
   my.title1 <- c("Positive-binomial (training) data")
   my.title2 <- c("Positive-binomial (training) data")
   my.title4 <- c("Positive-binomial (test) data")
@@ -1180,7 +1181,7 @@ dt[, 14] <- as.numeric(dt[, 14])-1
 
 # Remove all zero counts from data to create artificial zero-truncated data.
 
-dt2 <- dt[-which(dt$ofp==0), ]
+dt2 <- dt[-which(dt$ofp == 0), ]
 
 y <- dt2$ofp
 n <- length(y)
