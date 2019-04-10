@@ -371,7 +371,11 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore"><code>R</code>-tutorial: A weighted partial likelihood approach for zero-truncated models</h1>
 <h4 class="author"><em>Wen-Han Hwang, Dean Heinze and Jakub Stoklosa</em></h4>
+<<<<<<< HEAD
 <h4 class="date"><em>25 February, 2019</em></h4>
+=======
+<h4 class="date"><em>28 March, 2019</em></h4>
+>>>>>>> e7fc931662dde7755d12987c514d1543cd562818
 
 </div>
 
@@ -381,23 +385,26 @@ $(document).ready(function () {
 <p>These data can be obtained from Web Table 1.</p>
 <pre class="r"><code>library(sandwich) # Load the &quot;sandwich&quot; package.
 
-tau&lt;-3 # No. of capture occasions.
-D&lt;-62 # No. of uniquely caught possums.
+tau &lt;- 3 # No. of capture occasions.
+D &lt;- 62 # No. of uniquely caught possums.
 
 # Observed frequencies:
 
-y&lt;-c(2,3,1,3,2,2,1,3,2,2,2,1,2,2,3,1,1,1,1,1,1,1,2,1,3,1,2,1,2,1,1,2,1,1,1,3,2,2,1,1,
-     1,3,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,2,1,3,3,1)
+y &lt;- c(2, 3, 1, 3, 2, 2, 1, 3, 2, 2, 2, 1, 2, 2, 3, 1, 1, 1, 1, 1, 1, 1, 2, 1, 3, 
+     1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 3, 2, 2, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1,
+     1, 1, 1, 1, 2, 1, 1, 2, 1, 3, 3, 1)
 
 # First capture times (t_i) for each possum:
 
-t1&lt;-c(1,1,3,1,1,1,3,1,1,1,1,1,1,1,1,3,3,3,2,2,1,1,1,1,1,1,1,1,1,1,2,1,3,1,1,1,2,2,2,
-      2,2,1,3,3,3,3,3,3,2,3,3,3,3,1,1,3,1,1,2,1,1,1)
+t1 &lt;- c(1, 1, 3, 1, 1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 2, 2, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 2, 1, 3, 1, 1, 1, 2, 2, 2, 2, 2, 1, 3, 3, 3, 3, 3, 3, 
+        2, 3, 3, 3, 3, 1, 1, 3, 1, 1, 2, 1, 1 ,1)
 
 # Gender covariate:
 
-x.obs&lt;-c(0,0,1,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,0,0,1,1,
-         0,0,1,0,1,1,1,1,1,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0)</code></pre>
+x.obs &lt;- c(0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0,
+           1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 
+           1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)</code></pre>
 <div id="data-summaries" class="section level3">
 <h3>Data summaries:</h3>
 <pre class="r"><code>sum(y) # Total no. of captures.</code></pre>
@@ -406,15 +413,15 @@ x.obs&lt;-c(0,0,1,0,0,1,1,0,0,0,0,0,0,0,1,1,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,
 <pre><code>## [1] 1.548387</code></pre>
 <pre class="r"><code>sum(x.obs) # No. of males.</code></pre>
 <pre><code>## [1] 27</code></pre>
-<pre class="r"><code>D-sum(x.obs) # No. of females.</code></pre>
+<pre class="r"><code>D - sum(x.obs) # No. of females.</code></pre>
 <pre><code>## [1] 35</code></pre>
-<pre class="r"><code>fs&lt;-table(y) 
+<pre class="r"><code>fs &lt;- table(y) 
 
-f1&lt;-fs[1]
-f2&lt;-fs[2]
-f3&lt;-fs[3]
+f1 &lt;- fs[1]
+f2 &lt;- fs[2]
+f3 &lt;- fs[3]
 
-c(f1,f2,f3) # Frequency of individuals caught exactly x times.</code></pre>
+c(f1, f2, f3) # Frequency of individuals caught exactly x times.</code></pre>
 <pre><code>##  1  2  3 
 ## 37 16  9</code></pre>
 </div>
@@ -422,26 +429,25 @@ c(f1,f2,f3) # Frequency of individuals caught exactly x times.</code></pre>
 <h3>A function that calculates population size estimates (and standard errors):</h3>
 <pre class="r"><code># The &quot;m&quot; denotes a glm model object, tau and y are as defined as above
 
-VarNhat.glm&lt;-function(m,tau,y=NULL)
-  {
-  X&lt;-model.matrix(m)
-  beta&lt;-coef(m)
-  P&lt;-c(1/(1+exp(-X%*%beta)))
-  Pi&lt;-1-(1-P)^tau
-  Nhat&lt;-sum(Pi^(-1)) # Population size (Horvitz-Thompson) estimator.
-
+VarNhat.glm &lt;- function(m, tau, y = NULL){
+  X &lt;- model.matrix(m)
+  beta &lt;- coef(m)
+  P &lt;- c(1 / (1 + exp(-X%*%beta)))
+  Pi &lt;- 1 - (1 - P)^tau
+  Nhat &lt;- sum(Pi^(-1)) # Population size (Horvitz-Thompson) estimator.
+  
   # Standard error estimator using the &quot;sandwich&quot; package. Below we give the
   # standard error estimator for Nhat, see Huggins(1989) for further details.
   
-  var.beta&lt;-sandwich(m) # Variance estimates for model regression coefficients (beta).
-  gdash.beta&lt;-t(X)%*%(Pi^(-2)*(1-P)^tau*tau*P)
-  varA&lt;-sum((1-Pi)/Pi^2)
-  varB&lt;-(t(gdash.beta)%*%var.beta)%*%gdash.beta
-  varN&lt;-as.vector(varA+varB)
-  Se.Nhat&lt;-sqrt(varN)
-
-  return(list(Se.beta=sqrt(diag(var.beta)),Nhat=Nhat,Se.Nhat=Se.Nhat))
-  }</code></pre>
+  var.beta &lt;- sandwich(m) # Variance estimates for model regression coefficients (beta).
+  gdash.beta &lt;- t(X)%*%(Pi^(-2)*(1 - P)^tau*tau*P)
+  varA&lt;-sum((1 - Pi)/Pi^2)
+  varB &lt;- (t(gdash.beta)%*%var.beta)%*%gdash.beta
+  varN &lt;- as.vector(varA + varB)
+  Se.Nhat &lt;- sqrt(varN)
+  
+  return(list(Se.beta = sqrt(diag(var.beta)), Nhat = Nhat, Se.Nhat = Se.Nhat))
+}</code></pre>
 </div>
 <div id="use-full-data-and-fit-linear-logistic-regression-m_0m_h-models." class="section level3">
 <h3>Use full data and fit linear logistic regression (<span class="math inline">\(M_0/M_h\)</span>) models.</h3>
@@ -449,47 +455,47 @@ VarNhat.glm&lt;-function(m,tau,y=NULL)
 <h4>Partial likelihood approach:</h4>
 <pre class="r"><code># Construct PL weights to feed into glm().
 
-R&lt;-y-1
-h&lt;-tau-t1
-y.p&lt;-R/h
-y.p[is.na(y.p)]&lt;-0
+R &lt;- y-1
+h &lt;- tau-t1
+y.p &lt;- R/h
+y.p[is.na(y.p)] &lt;- 0
 
-est.PL_0&lt;-glm(y.p~1,weights=h,family=binomial)
-est.PL_const&lt;-VarNhat.glm(est.PL_0,tau,y=y)
+est.PL_0 &lt;- glm(y.p ~ 1, weights = h, family = binomial)
+est.PL_const &lt;- VarNhat.glm(est.PL_0, tau, y = y)
 
-est.PL_1&lt;-glm(y.p~x.obs,weights=h,family=binomial)
-est.PL_Mh&lt;-VarNhat.glm(est.PL_1,tau,y=y)   </code></pre>
+est.PL_1 &lt;- glm(y.p ~ x.obs, weights = h, family = binomial)
+est.PL_Mh &lt;- VarNhat.glm(est.PL_1, tau, y = y)   </code></pre>
 
 </div>
 <div id="weighed-partial-likelihood-approach" class="section level4">
 <h4>Weighed partial likelihood approach:</h4>
 <pre class="r"><code># Construct WPL weights to feed into glm.
 
-m.tilde.star&lt;-tau-(tau+1)/(y+1)
-h.wpl&lt;-m.tilde.star
-y.wpl&lt;-R/h.wpl
-y.wpl[is.na(y.wpl)]&lt;-0
+m.tilde.star &lt;- tau-(tau + 1)/(y + 1)
+h.wpl &lt;- m.tilde.star
+y.wpl &lt;- R/h.wpl
+y.wpl[is.na(y.wpl)] &lt;- 0
 
-est.WPL_0&lt;-glm(y.wpl~1,weights=h.wpl,family=binomial)
-est.WPL_const&lt;-VarNhat.glm(est.WPL_0,tau,y=y)
+est.WPL_0 &lt;- glm(y.wpl ~ 1, weights = h.wpl, family = binomial)
+est.WPL_const &lt;- VarNhat.glm(est.WPL_0, tau, y = y)
 
-est.WPL_1&lt;-glm(y.wpl~x.obs,weights=h.wpl,family=binomial)
-est.WPL_Mh&lt;-VarNhat.glm(est.WPL_1,tau,y=y) </code></pre>
+est.WPL_1 &lt;- glm(y.wpl ~ x.obs, weights = h.wpl, family = binomial)
+est.WPL_Mh &lt;- VarNhat.glm(est.WPL_1, tau, y = y) </code></pre>
 </div>
 </div>
 <div id="combine-results-and-display-them" class="section level3">
 <h3>Combine results and display them:</h3>
 <pre class="r"><code># These should be the same as the first few rows of Table 3.
 
-N_ests&lt;-matrix(round(as.numeric(rbind(c(est.PL_const$Nhat,est.PL_const$Se.Nhat),
-                                      c(est.WPL_const$Nhat,est.WPL_const$Se.Nhat),
-                                      c(est.PL_Mh$Nhat,est.PL_Mh$Se.Nhat),
-                                      c(est.WPL_Mh$Nhat,est.WPL_Mh$Se.Nhat))),
-                                      digits=2),ncol=2)
-  
-rownames(N_ests)&lt;-c(&quot;PL&quot;,&quot;WPL&quot;,&quot;PL-h&quot;,&quot;WPL-h&quot;)
-colnames(N_ests)&lt;-c(&quot;N_hat&quot;,&quot;S.E.(N_hat)&quot;)
-round(N_ests,digits=2)</code></pre>
+N_ests &lt;- matrix(round(as.numeric(rbind(c(est.PL_const$Nhat, est.PL_const$Se.Nhat),
+                                      c(est.WPL_const$Nhat, est.WPL_const$Se.Nhat),
+                                      c(est.PL_Mh$Nhat, est.PL_Mh$Se.Nhat),
+                                      c(est.WPL_Mh$Nhat, est.WPL_Mh$Se.Nhat))),
+                                      digits = 2), ncol = 2)
+
+rownames(N_ests) &lt;- c(&quot;PL&quot;, &quot;WPL&quot;, &quot;PL-h&quot;, &quot;WPL-h&quot;)
+colnames(N_ests) &lt;- c(&quot;N_hat&quot;, &quot;S.E.(N_hat)&quot;)
+round(N_ests, digits = 2)</code></pre>
 <pre><code>##       N_hat S.E.(N_hat)
 ## PL    76.55        5.88
 ## WPL   77.39        6.98
@@ -506,52 +512,52 @@ suppressMessages(library(MASS)) # Load the &quot;MASS&quot; package.
 
 # Load data and extract all variables.
 
-load(file=&quot;DebTrivedi.rda&quot;) # Load the data.
+load(file = &quot;DebTrivedi.rda&quot;) # Load the data.
 
-dt&lt;-DebTrivedi[,c(1,5,6,8,9,11:19)]
-dt[,5]&lt;-as.numeric(dt[,5])-1
-dt[,7]&lt;-as.numeric(dt[,7])-1
-dt[,8]&lt;-as.numeric(dt[,8])-1
-dt[,9]&lt;-as.numeric(dt[,9])-1
-dt[,12]&lt;-as.numeric(dt[,12])-1
-dt[,13]&lt;-as.numeric(dt[,13])-1
-dt[,14]&lt;-as.numeric(dt[,14])-1</code></pre>
+dt &lt;- DebTrivedi[,c(1, 5, 6, 8, 9, 11:19)]
+dt[, 5] &lt;- as.numeric(dt[, 5])-1
+dt[, 7] &lt;- as.numeric(dt[, 7])-1
+dt[, 8] &lt;- as.numeric(dt[, 8])-1
+dt[, 9] &lt;- as.numeric(dt[, 9])-1
+dt[, 12] &lt;- as.numeric(dt[, 12])-1
+dt[, 13] &lt;- as.numeric(dt[, 13])-1
+dt[, 14] &lt;- as.numeric(dt[, 14])-1</code></pre>
 <div id="remove-all-zero-counts-from-data-to-create-artificial-zero-truncated-data" class="section level3">
 <h3>Remove all zero counts from data to create artificial zero-truncated data:</h3>
-<pre class="r"><code>dt2&lt;-dt[-which(dt$ofp==0),]
+<pre class="r"><code>dt2 &lt;- dt[-which(dt$ofp==0), ]
 
-y&lt;-dt2$ofp
-n&lt;-length(y)
+y &lt;- dt2$ofp
+n &lt;- length(y)
 
-X&lt;-cbind(rep(1,n),dt2[,-1])
-colnames(X)[1]&lt;-&quot;(Intercept)&quot;</code></pre>
+X &lt;- cbind(rep(1, n), dt2[, -1])
+colnames(X)[1] &lt;- &quot;(Intercept)&quot;</code></pre>
 </div>
 <div id="fit-models-and-apply-model-selection-aic-and-glmnet" class="section level3">
 <h3>Fit models and apply model selection (AIC and GLMNET):</h3>
 <pre class="r"><code># Construct WPL weights to feed into glm() and glmnet().
 
-t.tilde.star&lt;-y/(y+1)
-y.tilde&lt;-y-1
+t.tilde.star &lt;- y/(y + 1)
+y.tilde &lt;- y-1
 
 # Fit models.
 
-dat2&lt;-data.frame(cbind(y.tilde,X))
+dat2 &lt;- data.frame(cbind(y.tilde, X))
 
-offs&lt;-log(t.tilde.star)
+offs &lt;- log(t.tilde.star)
 
-mod2&lt;-glm(y.tilde~emer+hosp+numchron+adldiff+age+black
-          +gender+married+school+faminc+employed+privins+medicaid,
-          offset=offs,family=poisson,data=dat2)
+mod2 &lt;- glm(y.tilde ~ emer + hosp + numchron + adldiff + age + black + 
+              gender + married + school + faminc + employed + privins + medicaid,
+            offset = offs, family = poisson, data = dat2)
 
-AIC.glm2&lt;-stepAIC(mod2,trace=FALSE)$coefficients
+AIC.glm2 &lt;- stepAIC(mod2, trace = FALSE)$coefficients
 
-mod3&lt;-glmnet(as.matrix(X),y.tilde,family=&quot;poisson&quot;,offset=log(t.tilde.star))
+mod3 &lt;- glmnet(as.matrix(X), y.tilde, family = &quot;poisson&quot;, offset = log(t.tilde.star))
 
-s&lt;-cv.glmnet(as.matrix(X),y.tilde,family=&quot;poisson&quot;,offset=log(t.tilde.star))$lambda.min
+s &lt;- cv.glmnet(as.matrix(X), y.tilde, family = &quot;poisson&quot;, offset = log(t.tilde.star))$lambda.min
 
-tmp_coeffs&lt;-coef(mod3,s=s)
+tmp_coeffs &lt;- coef(mod3, s = s)
 
-mod3.coef&lt;-data.frame(name=tmp_coeffs@Dimnames[[1]][tmp_coeffs@i+1],coefficient=tmp_coeffs@x)</code></pre>
+mod3.coef &lt;- data.frame(name = tmp_coeffs@Dimnames[[1]][tmp_coeffs@i + 1],coefficient = tmp_coeffs@x)</code></pre>
 </div>
 <div id="combine-results-and-display-them-1" class="section level3">
 <h3>Combine results and display them:</h3>
@@ -567,6 +573,7 @@ AIC.glm2 </code></pre>
 # glmnet() uses cross-validation to select lambda, thus the data is randomly 
 # split and will consist of different training/test sets for each fit.
 t(mod3.coef) </code></pre>
+<<<<<<< HEAD
 <pre><code>##             [,1]            [,2]            [,3]           
 ## name        &quot;(Intercept)&quot;   &quot;emer&quot;          &quot;hosp&quot;         
 ## coefficient &quot; 1.9847332344&quot; &quot; 0.0250558524&quot; &quot; 0.1486987191&quot;
@@ -582,6 +589,20 @@ t(mod3.coef) </code></pre>
 ##             [,13]          
 ## name        &quot;medicaid&quot;     
 ## coefficient &quot; 0.1352250103&quot;</code></pre>
+=======
+<pre><code>##             [,1]           [,2]           [,3]           [,4]          
+## name        &quot;(Intercept)&quot;  &quot;emer&quot;         &quot;hosp&quot;         &quot;numchron&quot;    
+## coefficient &quot; 1.996441244&quot; &quot; 0.025630416&quot; &quot; 0.149056706&quot; &quot; 0.105428679&quot;
+##             [,5]           [,6]           [,7]           [,8]          
+## name        &quot;adldiff&quot;      &quot;age&quot;          &quot;gender&quot;       &quot;married&quot;     
+## coefficient &quot; 0.140702714&quot; &quot;-0.073016308&quot; &quot;-0.004745540&quot; &quot;-0.064710117&quot;
+##             [,9]           [,10]          [,11]          [,12]         
+## name        &quot;school&quot;       &quot;faminc&quot;       &quot;employed&quot;     &quot;privins&quot;     
+## coefficient &quot; 0.016626019&quot; &quot;-0.001655455&quot; &quot; 0.024532638&quot; &quot; 0.112048544&quot;
+##             [,13]         
+## name        &quot;medicaid&quot;    
+## coefficient &quot; 0.146966827&quot;</code></pre>
+>>>>>>> e7fc931662dde7755d12987c514d1543cd562818
 </div>
 </div>
 
