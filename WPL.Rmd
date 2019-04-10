@@ -31,7 +31,7 @@ These data can be obtained from Web Table 1.
 library(sandwich) # Load the "sandwich" package.
 
 tau <- 3 # No. of capture occasions.
-D <- 62 # No. of uniquely caught possums.
+D <- 62  # No. of uniquely caught possums.
 
 # Observed frequencies:
 
