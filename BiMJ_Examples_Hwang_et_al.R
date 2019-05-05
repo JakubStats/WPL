@@ -53,13 +53,9 @@ f3 <- fs[3]
 
 c(f1, f2, f3) # Frequency of individuals caught exactly x times.
 
-<<<<<<< HEAD
 # Closed form estimates for males/females separately. 
 
 # "N" denotes the population size estimate throughout.
-=======
-# Closed form estimates for males/females separately.
->>>>>>> 407ce57f539ce3c735f0d86466b8fb08456cc3d3
 
 # These results should be the same as Table 2.
 
@@ -137,11 +133,7 @@ N_CL_male <- est.CL_male$N.hat
 
 N_CL_tot <- N_CL_male + N_CL_female
 
-<<<<<<< HEAD
 N_CL_tot.SE <- sqrt(est.CL_female$sd.Nhat^2 + est.CL_male$sd.Nhat^2)
-=======
-N_CL_tot.SE <- sqrt(est.CL_female$sd.Nhat^2+est.CL_male$sd.Nhat^2)
->>>>>>> 407ce57f539ce3c735f0d86466b8fb08456cc3d3
 
 N_ests <- rbind(c(p_PL_female, sqrt(sandwich(est.PL0_female))[1]*est.PL0_female$fitted[1]*(1-est.PL0_female$fitted[1]), 
                   p_PL_male, sqrt(sandwich(est.PL0_male))[1]*est.PL0_male$fitted[1]*(1-est.PL0_male$fitted[1]), NA, NA), 
@@ -166,7 +158,7 @@ N_ests
 
 # Construct PL weights to feed into glm().
 
-R <- y-1
+R <- y - 1
 h <- tau-t1
 y.p <- R/h
 y.p[is.na(y.p)] <- 0
@@ -307,3 +299,149 @@ AIC.glm2
 # different training/test sets for each fit.
 
 t(mod3.coef)
+
+# K-fold cross validation.
+
+K <- 5 
+
+set.seed(2018) 
+
+flds <- createFolds(y, k = K, list = TRUE, returnTrain = FALSE) 
+names(flds)[1:K] <- rep("test", K) 
+
+res.tr <- c() 
+res.te <- c() 
+
+for(kk in 1:K){
+  set.seed(kk + 2018) 
+  
+  test <- flds[kk]$test   
+  train <- (1:n)[-test] 
+  
+  # Construct training/test data.
+  
+  n.tr <- length(train) 
+  n.te <- length(test) 
+  
+  y.tr <- y[train] 
+  y.te <- y[test] 
+  
+  X.tr <- X[train, ] 
+  X.te <- as.data.frame(X[test, ]) 
+  
+  y.tilde.tr <- y.tilde[train] 
+  y.tilde.te <- y.tilde[test] 
+  
+  t.tilde.star.tr <- t.tilde.star[train] 
+  t.tilde.star.te <- t.tilde.star[test] 
+  
+  est.names <- c("MLE (VGAM)", "WPL (GLM)", "WPL (GLMNET)") 
+  
+  # MLE log-linear VGAM.
+  
+  dat1 <- data.frame(cbind(y.tr, X.tr)) 
+  
+  a1 <- vglm(y.tr ~ emer + hosp + numchron + adldiff + age + black + gender + 
+               married + school + faminc + employed + privins + medicaid, 
+             pospoisson, data = dat1) 
+  
+  dat2 <- data.frame(X.te) 
+  names(dat2) <- names(coef(a1)) 
+  
+  preds.tr0 <- c(exp(coef(a1)%*%t(as.matrix(dat1[, -1])))) 
+  preds.tr <- preds.tr0/(1 - exp(-preds.tr0)) 
+  var.y.tr <- preds.tr - preds.tr^2*exp(-preds.tr0) 
+  
+  preds.te0 <- c(exp(coef(a1)%*%t(as.matrix(dat2)))) 
+  preds.te <- preds.te0/(1 - exp(-preds.te0)) 
+  var.y.te <- preds.te - preds.te^2*exp(-preds.te0) 
+  
+  VGAM.DS.tr <- sum((y.tr - preds.tr)^2/var.y.tr + log(var.y.tr))/n.tr 
+  VGAM.SPR.tr <- sum((y.tr - preds.tr)^2/var.y.tr)/n.tr 
+  
+  VGAM.DS.te <- sum((y.te - preds.te)^2/var.y.te + log(var.y.te))/n.te 
+  VGAM.SPR.te <- sum((y.te - preds.te)^2/var.y.te)/n.te 
+  
+  # WPL.
+  
+  # Saturated log-linear (positive-Poisson MLE) GLM.
+  
+  offs <- log(t.tilde.star.tr) 
+  est <- glm(y.tilde.tr ~ emer + hosp + numchron + adldiff + age + black + gender + 
+               married + school + faminc + employed + privins + medicaid, 
+             offset = offs, family = poisson, data = dat1) 
+  
+  AIC.glm <- stepAIC(est, trace = FALSE, direction = c("backward"))$coefficients 
+  var.sel <- names(AIC.glm) 
+  dat2a <- X.tr[, which(names(coef(est))%in%var.sel)] 
+  preds.tr <- c(exp(AIC.glm%*%t(as.matrix(dat2a)))) 
+  var.y.tr <- preds.tr-preds.tr^2*exp(-preds.tr0) 
+  
+  dat2b <- X.te[, which(names(coef(est))%in%var.sel)] 
+  preds.te <- c(exp(AIC.glm%*%t(as.matrix(dat2b)))) 
+  var.y.te <- preds.te - preds.te^2*exp(-preds.te0) 
+  
+  WPL.DS.tr <- sum((y.tr - preds.tr)^2/var.y.tr + log(var.y.tr))/n.tr 
+  WPL.SPR.tr <- sum((y.tr - preds.tr)^2/var.y.tr)/n.tr 
+  
+  WPL.DS.te <- sum((y.te - preds.te)^2/var.y.te + log(var.y.te))/n.te 
+  WPL.SPR.te <- sum((y.te - preds.te)^2/var.y.te)/n.te 
+  
+  # High-dimensional (elastic-net penalty) log-linear model using glmnet.  
+  
+  X.tr1 <- as.matrix(X.tr) 
+  X.te1 <- as.matrix(X.te) 
+  
+  offs <- log(t.tilde.star.tr) 
+  offset0.tr <- rep(0, n.tr) 
+  offset0.te <- rep(0, n.te) 
+  
+  est <- glmnet(X.tr1[, -1], y.tilde.tr, family = "poisson", offset = log(t.tilde.star.tr)) 
+  
+  preds.tr0 <- predict(est, X.tr1[, -1], s = cv.glmnet(X.tr1[, -1], y.tilde.tr, family = "poisson", offset = log(t.tilde.star.tr))$lambda.min, type = "response", newoffset = offset0.tr) 
+  preds.te0 <- predict(est, X.te1[, -1], s = cv.glmnet(X.tr1[, -1], y.tilde.tr, family = "poisson", offset = log(t.tilde.star.tr))$lambda.min, type = "response", newoffset = offset0.te) 
+  
+  preds.tr <- preds.tr0/(1 - exp(-preds.tr0))   
+  preds.te <- preds.te0/(1 - exp(-preds.te0)) 
+  
+  var.y.tr <- preds.tr - preds.tr^2*exp(-preds.tr0) 
+  var.y.te <- preds.te - preds.te^2*exp(-preds.te0) 
+  
+  WPL.GLMNET.DS.tr <- sum((y.tr - preds.tr)^2/var.y.tr + log(var.y.tr))/n.tr 
+  WPL.GLMNET.SPR.tr <- sum((y.tr - preds.tr)^2/var.y.tr)/n.tr 
+  
+  WPL.GLMNET.DS.te <- sum((y.te - preds.te)^2/var.y.te + log(var.y.te))/n.te 
+  WPL.GLMNET.SPR.te <- sum((y.te - preds.te)^2/var.y.te)/n.te 
+  
+  # Combine all results.
+  
+  DS1 <- c(VGAM.DS.tr, WPL.DS.tr, WPL.GLMNET.DS.tr) 
+  SPR1 <- c(VGAM.SPR.tr, WPL.SPR.tr, WPL.GLMNET.SPR.tr) 
+  
+  DS2 <- c(VGAM.DS.te, WPL.DS.te, WPL.GLMNET.DS.te) 
+  SPR2 <- c(VGAM.SPR.te, WPL.SPR.te, WPL.GLMNET.SPR.te) 
+  
+  res1 <- rbind(SPR1, DS1) 
+  res2 <- rbind(SPR2, DS2) 
+  
+  colnames(res1) <- colnames(res2) <- c("positive-Poisson MLE", "WPL-AIC", "WPL-Elastic Net") 
+  rownames(res1) <- rownames(res2) <- c("SPR", "DS") 
+  
+  res.tr <- c(res.tr, list(res1)) 
+  res.te <- c(res.te, list(res2)) 
+}
+
+aa  =  bb <- matrix(0, nrow = nrow(res1), ncol = ncol(res1)) 
+
+for(kk in 1:K){
+  aa <- aa + res.tr[[kk]] 
+  bb <- bb + res.te[[kk]] 
+}
+
+# Print results (bottom of Table 4).
+
+est <- round(rbind(rbind(aa[1, ], bb[1, ])/K, rbind(aa[2, ], bb[2, ])/K), digits = 3)
+
+row.names(est) <- c("SPR (train)", "SPR (test)", "DS (train)", "DS (test)") 
+
+est
