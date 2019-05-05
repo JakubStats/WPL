@@ -10,7 +10,9 @@ source("BiMJ_Functions_Hwang_et_al.R")
 
 # Simulation study 1a: Regression models.
 
-# This should match Figure 3 and Table 1 in the manscript.
+# This should match Figure 3 and top of Table 1 in the manscript.
+
+# Generate data, fit models and plot results here.
 
 set.seed(312351)
 
@@ -30,12 +32,12 @@ for(jjj in 1:4){
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
   
-  if (jjj  ==  1) theta <- c(-1, 1)
-  if (jjj  ==  2) theta <- c(1.5, -0.5)
-  if (jjj  ==  3) theta <- c(-1, 1)
-  if (jjj  ==  4) theta <- c(1.5, -0.5)
-  if (jjj  ==  5) theta <- c(-1, 1)
-  if (jjj  ==  6) theta <- c(1.5, -0.5)
+  if(jjj  ==  1) theta <- c(-1, 1)
+  if(jjj  ==  2) theta <- c(1.5, -0.5)
+  if(jjj  ==  3) theta <- c(-1, 1)
+  if(jjj  ==  4) theta <- c(1.5, -0.5)
+  if(jjj  ==  5) theta <- c(-1, 1)
+  if(jjj  ==  6) theta <- c(1.5, -0.5)
   
   for(n in ns){ 
     print(n)
@@ -102,12 +104,12 @@ for(jjj in 1:4){
       
       dat1 <- data.frame(cbind(y, x))
       a4 <- try(vglm(cbind(y, m - y) ~ x, posbinomial, data = dat1), silent = TRUE)
-      if (class(a4) == "try-error"){
+      if(class(a4) == "try-error"){
         VGAM.coef <- NA
         a4.se <- NA
       }
       
-      if (class(a4)!="try-error"){
+      if(class(a4)!="try-error"){
         VGAM.coef <- coef(a4)[2]
         a4.se <- sqrt(vcov(a4)[2, 2])
       }
@@ -131,6 +133,8 @@ for(jjj in 1:4){
   esttheta.MSE_print <- rbind(esttheta.MSE_print, c(9, esttheta.MSE_n))
   
   esttheta.MSE <- esttheta.MSE[, -3]
+  
+  # Plots.
   
   colnames(esttheta.MSE) <- c("PL", "WPL")
   
@@ -198,10 +202,10 @@ for(jjj in 1:4){
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
   
-  if (jjj == 1) theta <- c(-1, 0.5)
-  if (jjj == 2) theta <- c(0.5, -1)
-  if (jjj == 3) theta <- c(-1, 0.5)
-  if (jjj == 4) theta <- c(0.5, -1)
+  if(jjj == 1) theta <- c(-1, 0.5)
+  if(jjj == 2) theta <- c(0.5, -1)
+  if(jjj == 3) theta <- c(-1, 0.5)
+  if(jjj == 4) theta <- c(0.5, -1)
   
   for(n in ns){
     print(n)
@@ -213,9 +217,9 @@ for(jjj in 1:4){
     esttheta.MSE1 <- matrix(NA, simn, length(est.names))
     
     while(i<=simn){
-      if (jjj == 1 | jjj == 2){x <- rnorm(n)}
+      if(jjj == 1 | jjj == 2){x <- rnorm(n)}
       
-      if (jjj == 3 | jjj == 4){
+      if(jjj == 3 | jjj == 4){
         x <- rchisq(n, 3)
         x <- (x - mean(x))/sd(x) 
         x[which(abs(x)>3)] <- 3
@@ -283,6 +287,8 @@ for(jjj in 1:4){
   
   esttheta.MSE <- esttheta.MSE[, -3]
   
+  # Plots.
+  
   colnames(esttheta.MSE) <- c("PL", "WPL")
   
   esttheta.MSE <- stack(as.data.frame(esttheta.MSE))
@@ -330,7 +336,7 @@ rm(list = ls())
 
 source("BiMJ_Functions_Hwang_et_al.R")
 
-# These should match Figures 5 and 6 of the manuscript (you can toggle with 
+# These should match Figures 5 and 6 of the manuscript (make sure to toggle with 
 # the family setting below to get the desired figure).
 
 set.seed(1)
@@ -401,7 +407,7 @@ while (i<=simn){
   if (family == "binomial"){
     m.tilde <- m - t_i
     m.tilde.star <- m-(m + 1)/(y + 1)
-    y.tilde <- y - 1
+    y.tilde <- y-1
     y.wpl <- y.tilde/m.tilde.star
   }
   
@@ -451,7 +457,7 @@ while (i<=simn){
   if (family == "poisson") a1 <- try(vglm(y.tr ~ X.tr - 1, 
                                           pospoisson, data = dat1), silent = TRUE)
   
-  if (class(a1) == "try-error"){
+  if(class(a1) == "try-error"){
     VGAM.SPR.tr <- NA
     VGAM.DS.tr <- NA
     VGAM.MSE.tr <- NA

@@ -53,9 +53,13 @@ f3 <- fs[3]
 
 c(f1, f2, f3) # Frequency of individuals caught exactly x times.
 
+<<<<<<< HEAD
 # Closed form estimates for males/females separately. 
 
 # "N" denotes the population size estimate throughout.
+=======
+# Closed form estimates for males/females separately.
+>>>>>>> 407ce57f539ce3c735f0d86466b8fb08456cc3d3
 
 # These results should be the same as Table 2.
 
@@ -133,7 +137,11 @@ N_CL_male <- est.CL_male$N.hat
 
 N_CL_tot <- N_CL_male + N_CL_female
 
+<<<<<<< HEAD
 N_CL_tot.SE <- sqrt(est.CL_female$sd.Nhat^2 + est.CL_male$sd.Nhat^2)
+=======
+N_CL_tot.SE <- sqrt(est.CL_female$sd.Nhat^2+est.CL_male$sd.Nhat^2)
+>>>>>>> 407ce57f539ce3c735f0d86466b8fb08456cc3d3
 
 N_ests <- rbind(c(p_PL_female, sqrt(sandwich(est.PL0_female))[1]*est.PL0_female$fitted[1]*(1-est.PL0_female$fitted[1]), 
                   p_PL_male, sqrt(sandwich(est.PL0_male))[1]*est.PL0_male$fitted[1]*(1-est.PL0_male$fitted[1]), NA, NA), 
