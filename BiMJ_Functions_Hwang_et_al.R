@@ -22,7 +22,7 @@ library(grid)
 
 # Inverse logit function.
 
-H <- function(a){1/(1+exp(-a))}
+H <- function(a) 1/(1 + exp(-a))
 
 # Some simulation functions.
 
@@ -30,7 +30,7 @@ mean.na <- function(x) mean(x, na.rm = T)
 
 # A function that calculates population size estimates (and standard errors) given a glm model.
 
-VarNhat.glm <- function(m, tau, y = NULL){
+VarNhat.glm <- function(m, tau, y = NULL) {
   
   # The "m" denotes a glm model object, tau and y are as defined as above.
   
@@ -56,15 +56,15 @@ VarNhat.glm <- function(m, tau, y = NULL){
 # Conditional likelihood function for the positive-binomial model.
 # Populations size (and stadnard errors) are also estimated. 
 
-par.mle <- function(betain, X, tau, y, SE = T){
+par.mle <- function(betain, X, tau, y, SE = T) {
   options(warn = -1)
   
   n <- nrow(X)
   
-  est.fn <- function(beta){
+  est.fn <- function(beta) {
     pr <- H(X%*%beta)
-    pi <- 1-(1-pr)^tau
-    L <- y*log(pr/(1-pr))+tau*log(1-pr)-log(pi)
+    pi <- 1 - (1 - pr)^tau
+    L <- y*log(pr/(1 - pr)) + tau*log(1 - pr) - log(pi)
     
     -sum(L)
   }
@@ -73,25 +73,25 @@ par.mle <- function(betain, X, tau, y, SE = T){
   beta <- est.out$par
   
   pr <- c(H(X%*%beta))
-  pi <- 1-(1-pr)^tau
+  pi <- 1 - (1 - pr)^tau
   N.hat <- sum(1/pi)
   
-  if(SE==F){
+  if(SE == F) {
     sd.beta <- NULL
     sd.Nhat <- NULL
   }
   
   # Variance calculation.
   
-  if(SE==T){
-    vy <- tau*pr*(1-pr)/pi-(tau*pr)^2*(1-pi)/pi/pi
+  if(SE == T) {
+    vy <- tau*pr*(1 - pr)/pi - (tau*pr)^2*(1 - pi)/pi/pi
     dG <- t(X)%*%(X*vy)
     idG <- solve(dG)
     sd.beta <- sqrt(diag(idG))
     
-    dpi<-tau*pr*(1-pi)/pi/pi
-    dNhat<-apply(X*dpi, 2, sum)
-    sd.Nhat<-sqrt(sum((1-pi)/pi/pi)+t(dNhat)%*%idG%*%dNhat)
+    dpi <- tau*pr*(1 - pi)/pi/pi
+    dNhat <- apply(X*dpi, 2, sum)
+    sd.Nhat <- sqrt(sum((1 - pi)/pi/pi) + t(dNhat)%*%idG%*%dNhat)
   }
   
   return(list(beta = beta, N.hat = N.hat, sd.Nhat = sd.Nhat, sd.b = sd.beta, pr = pr))
@@ -99,27 +99,27 @@ par.mle <- function(betain, X, tau, y, SE = T){
 
 # Efficiency comparison function for the homogeneous case.
 
-mle.avar <- function(lam){
-  q <- 1-exp(-lam)
+mle.avar <- function(lam) {
+  q <- 1 - exp(-lam)
   
   lam*q^2/(q - lam*exp(-lam))
 }
 
-pl.avar0 <- function(lam){
+pl.avar0 <- function(lam) {
   p <- exp(-lam)
-  q <- 1-exp(-lam)
+  q <- 1 - exp(-lam)
   a <- (lam - q)/(lam*q)
   
   lam/a
 }
 
-pl.avar2 <- function(lam, K){
+pl.avar2 <- function(lam, K) {
   p <- exp(-lam)
-  q <- 1-exp(-lam)
+  q <- 1 - exp(-lam)
   a <- (lam - q)/(lam*q)
   
   y <- 1:K
-  g.m <- y-1-outer(y/(y + 1), lam)
+  g.m <- y - 1 - outer(y/(y + 1), lam)
   py.m <- t(outer(lam,y,"^")*p/q)
   py.m <- py.m/gamma(y + 1)
   eg2 <- apply(g.m^2*py.m, 2, sum)
@@ -127,15 +127,15 @@ pl.avar2 <- function(lam, K){
   eg2/(a^2)
 }
 
-binpl.avar <- function(p, k){
+binpl.avar <- function(p, k) {
   k1 <- k + 1 
-  q <- 1- p
+  q <- 1 -  p
   pi <- 1 - q^k
   ey1.inv <- (1 - q^k1 - k1*p*q^k)/(k1*p*pi)
   a <- k - k1*ey1.inv
   y <- 1:k
   c <- (k*y - 1)/(y + 1)
-  g.m <- y-1-outer(c, p)
+  g.m <- y-1 - outer(c, p)
   py.m0 <- (outer(p, y,  "^")*outer(q, k - y, "^"))/pi
   py.m <- t(py.m0)*choose(k, y)
   eg2 <- apply(g.m^2*py.m, 2, sum)
@@ -143,38 +143,38 @@ binpl.avar <- function(p, k){
   eg2/(a^2)
 }
 
-binmle.avar <- function(p,k){
-  q <- 1-p
-  pi <- 1-q^k
+binmle.avar <- function(p,k) {
+  q <- 1 - p
+  pi <- 1 - q^k
   
-  p*q*pi^2/(pi-k*p*q^(k-1))/k
+  p*q*pi^2/(pi - k*p*q^(k - 1))/k
 }
 
-binpl0.avar <- function(p, k){
-  q <- 1-p
-  pi <- 1-q^k
+binpl0.avar <- function(p, k) {
+  q <- 1 - p
+  pi <- 1 - q^k
   
   p^2*q*pi/(k*p - pi)
 }
 
 # Multiple plot function.
 
-multiplot <- function(..., plotlist = NULL, file, cols = 1, layout = NULL){
+multiplot <- function(..., plotlist = NULL, file, cols = 1, layout = NULL) {
   plots <- c(list(...), plotlist)
   numPlots <- length(plots)
   
-  if (is.null(layout)){
+  if (is.null(layout)) {
     layout <- matrix(seq(1, cols*ceiling(numPlots / cols)), ncol = cols, nrow = ceiling(numPlots / cols))
   }
   
-  if (numPlots  ==  1){
+  if (numPlots   ==   1) {
     print(plots[[1]])
   }else{
     grid.newpage()
     pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
     
-    for(i in 1:numPlots){
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+    for(i in 1:numPlots) {
+      matchidx <- as.data.frame(which(layout  ==  i, arr.ind = TRUE))
       print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row, layout.pos.col = matchidx$col))
     }
   }

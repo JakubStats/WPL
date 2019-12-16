@@ -75,7 +75,7 @@ c(f1, f2, f3) # Frequency of individuals caught exactly x times.
 ```{r, echo=TRUE}
 # The "m" denotes a glm model object, tau and y are as defined as above
 
-VarNhat.glm <- function(m, tau, y = NULL){
+VarNhat.glm <- function(m, tau, y = NULL) {
   X <- model.matrix(m)
   beta <- coef(m)
   P <- c(1 / (1 + exp(-X%*%beta)))

@@ -27,7 +27,7 @@ m <- 3 # Number of trials (or size) for a binomial model.
 esttheta.MSE2 <- c()
 esttheta.MSE_print <- c()
 
-for(jjj in 1:4){
+for(jjj in 1:4) {
   esttheta.bias <- c()
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
@@ -39,7 +39,7 @@ for(jjj in 1:4){
   if(jjj  ==  5) theta <- c(-1, 1)
   if(jjj  ==  6) theta <- c(1.5, -0.5)
   
-  for(n in ns){ 
+  for(n in ns) { 
     print(n)
     i <- 1
     esttheta1 <- matrix(NA, simn, length(est.names))
@@ -47,15 +47,15 @@ for(jjj in 1:4){
     esttheta.bias1 <- matrix(NA, simn, length(est.names))
     esttheta.MSE1 <- matrix(NA, simn, length(est.names))
     
-    while(i <= simn){
+    while(i <= simn) {
       if (jjj == 1 || jjj == 2) x<-rnorm(n)
       
-      if (jjj == 3 || jjj == 4){
+      if (jjj == 3 || jjj == 4) {
         x <- rchisq(n, 3)
         x <- (x - mean(x))/sd(x)
         x[which(abs(x) > 3)] <- 3
       }
-      if (jjj == 5 || jjj == 6){
+      if (jjj == 5 || jjj == 6) {
         x <- runif(n, -3, 3)
         x <- (x - mean(x))/sd(x)
       }
@@ -65,9 +65,9 @@ for(jjj in 1:4){
       
       t_i<-c()
       
-      for(jj in 1:length(y)){
-        if (y[jj] == m){t1 <- 1}
-        if (y[jj]!=m){
+      for(jj in 1:length(y)) {
+        if (y[jj] == m) {t1 <- 1}
+        if (y[jj] != m) {
           pty <- choose(m - (1:m), y[jj] - 1)/choose(m, y[jj])
           t1 <- sample(1:m, 1, prob = pty)
         }
@@ -104,12 +104,12 @@ for(jjj in 1:4){
       
       dat1 <- data.frame(cbind(y, x))
       a4 <- try(vglm(cbind(y, m - y) ~ x, posbinomial, data = dat1), silent = TRUE)
-      if(class(a4) == "try-error"){
+      if(class(a4) == "try-error") {
         VGAM.coef <- NA
         a4.se <- NA
       }
       
-      if(class(a4)!="try-error"){
+      if(class(a4) != "try-error") {
         VGAM.coef <- coef(a4)[2]
         a4.se <- sqrt(vcov(a4)[2, 2])
       }
@@ -197,7 +197,7 @@ ns <- c(50, 100, 200)
 esttheta.MSE2 <- c()
 esttheta.MSE_print <- c()
 
-for(jjj in 1:4){
+for(jjj in 1:4) {
   esttheta.bias <- c()
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
@@ -207,7 +207,7 @@ for(jjj in 1:4){
   if(jjj == 3) theta <- c(-1, 0.5)
   if(jjj == 4) theta <- c(0.5, -1)
   
-  for(n in ns){
+  for(n in ns) {
     print(n)
     i <- 1
     
@@ -216,10 +216,10 @@ for(jjj in 1:4){
     esttheta.bias1 <- matrix(NA, simn, length(est.names))
     esttheta.MSE1 <- matrix(NA, simn, length(est.names))
     
-    while(i<=simn){
-      if(jjj == 1 | jjj == 2){x <- rnorm(n)}
+    while(i<=simn) {
+      if(jjj == 1 | jjj == 2) {x <- rnorm(n)}
       
-      if(jjj == 3 | jjj == 4){
+      if(jjj == 3 | jjj == 4) {
         x <- rchisq(n, 3)
         x <- (x - mean(x))/sd(x) 
         x[which(abs(x)>3)] <- 3
@@ -230,12 +230,12 @@ for(jjj in 1:4){
       
       t_i <- c()
       
-      for(jj in 1:length(y)){
+      for(jj in 1:length(y)) {
         t1 <- min(runif(y[jj]))
         t_i <- c(t_i, t1)
       }
       
-      t.tilde <- 1-t_i
+      t.tilde <- 1 - t_i
       t.tilde.star <- y/(y + 1)
       y.tilde <- y-1
       
@@ -258,11 +258,11 @@ for(jjj in 1:4){
       
       dat1 <- data.frame(cbind(y, x))
       a4 <- try(vglm(y ~ x, pospoisson, data = dat1), silent = TRUE)
-      if (class(a4) == "try-error"){
+      if (class(a4) == "try-error") {
         VGAM.coef <- NA
         a4.se <- NA
       }
-      if (class(a4)!="try-error"){
+      if (class(a4) != "try-error") {
         VGAM.coef <- coef(a4)[2]
         a4.se <- sqrt(vcov(a4)[2, 2])
       }
@@ -369,14 +369,14 @@ MAE2 <- matrix(NA, simn, length(est.names))
 
 i <- 1
 
-while (i<=simn){
+while (i<=simn) {
   X0 <- matrix(rep(1, n), ncol = 1)
   sigAR <- diag(p)
   sigAR <- 0.5^abs(row(sigAR) - col(sigAR))
   Xcov <- cbind(rmvnorm(n, mean = rep(0, p), sigAR))
   X <- as.data.frame(cbind(X0, Xcov))
   
-  for(j in 1:p){
+  for(j in 1:p) {
     colnames(X)[j+1] <- paste("x", j, sep = "")
   }
   colnames(X)[1] <- c("(Intercept)")
@@ -390,10 +390,10 @@ while (i<=simn){
   
   t_i <- c()
   
-  for(jj in 1:length(y)){
-    if (family == "binomial"){
+  for(jj in 1:length(y)) {
+    if (family == "binomial") {
       if (y[jj] == m) t1 <- 1
-      if (y[jj]!=m){
+      if (y[jj] != m) {
         pty <- choose(m - (1:m), y[jj] - 1)/choose(m, y[jj])
         t1 <- sample(1:m, 1, prob = pty)
       }
@@ -404,14 +404,14 @@ while (i<=simn){
     t_i <- c(t_i, t1)
   }
   
-  if (family == "binomial"){
+  if (family == "binomial") {
     m.tilde <- m - t_i
     m.tilde.star <- m-(m + 1)/(y + 1)
     y.tilde <- y-1
     y.wpl <- y.tilde/m.tilde.star
   }
   
-  if (family == "poisson"){
+  if (family == "poisson") {
     t.tilde.star <- y/(y + 1)
     y.tilde <- y - 1
   }
@@ -430,7 +430,7 @@ while (i<=simn){
   X.tr <- X[train, ]
   X.te <- as.data.frame(X[test, ])
   
-  if (family == "binomial"){
+  if (family == "binomial") {
     y.wpl.tr <- y.wpl[train]
     y.wpl.te <- y.wpl[test]
     
@@ -438,7 +438,7 @@ while (i<=simn){
     m.tilde.star.te <- m.tilde.star[test]
   }
   
-  if (family == "poisson"){
+  if (family == "poisson") {
     y.tilde.tr <- y.tilde[train]
     y.tilde.te <- y.tilde[test]
     
@@ -457,7 +457,7 @@ while (i<=simn){
   if (family == "poisson") a1 <- try(vglm(y.tr ~ X.tr - 1, 
                                           pospoisson, data = dat1), silent = TRUE)
   
-  if(class(a1) == "try-error"){
+  if(class(a1) == "try-error") {
     VGAM.SPR.tr <- NA
     VGAM.DS.tr <- NA
     VGAM.MSE.tr <- NA
@@ -469,14 +469,14 @@ while (i<=simn){
     VGAM.MAE.te <- NA
   }
   
-  if (class(a1)!="try-error"){
+  if (class(a1) != "try-error") {
     dat2 <- data.frame(X.te)
     names(dat2) <- names(coef(a1))
     
-    if (family == "binomial"){
+    if (family == "binomial") {
       preds.tr0 <- c(H(coef(a1)%*%t(as.matrix(dat1[, -1]))))
       mu.tr <- m*preds.tr0
-      pi.tr <- 1-(1 - mu.tr / m)^m
+      pi.tr <- 1 - (1 - mu.tr / m)^m
       y.hat.tr <- mu.tr/pi.tr
       var.hat.tr <- m*preds.tr0*(1 - preds.tr0)/pi.tr-m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
@@ -487,7 +487,7 @@ while (i<=simn){
       
       preds.te0 <- c(H(coef(a1)%*%t(as.matrix(dat2))))
       mu.te <- m*preds.te0
-      pi.te <- 1-(1 - mu.te / m)^m
+      pi.te <- 1 - (1 - mu.te / m)^m
       y.hat.te <- mu.te/pi.te
       var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te - m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
@@ -497,7 +497,7 @@ while (i<=simn){
       VGAM.MAE.te <- sum(abs(y.te - y.hat.te))/n.te
     }
     
-    if (family == "poisson"){
+    if (family == "poisson") {
       preds.tr0 <- c(exp(coef(a1)%*%t(as.matrix(dat1[, -1]))))
       preds.tr <- preds.tr0/(1 - exp(-preds.tr0))
       var.y.tr <- preds.tr-preds.tr^2*exp(-preds.tr0)
@@ -522,12 +522,12 @@ while (i<=simn){
   
   if (family == "binomial") est <- try(glm(y.wpl.tr ~ X.tr - 1, weights = m.tilde.star.tr, 
                                            family = binomial), silent = TRUE)
-  if (family == "poisson"){
+  if (family == "poisson") {
     offs <- log(t.tilde.star.tr)
     est <- try(glm(y.tilde.tr ~ X.tr - 1 + offset(offs), family = poisson), silent = TRUE)
   }
   
-  if (class(est)[1] == "try-error"){
+  if (class(est)[1] == "try-error") {
     WPL.AIC.SPR.tr <- NA
     WPL.AIC.DS.tr <- NA
     WPL.AIC.MSE.tr <- NA
@@ -539,21 +539,21 @@ while (i<=simn){
     WPL.AIC.MAE.te <- NA
   }
   
-  if (class(est)[1] != "try-error"){
-    if (family == "binomial"){
+  if (class(est)[1] != "try-error") {
+    if (family == "binomial") {
       AIC.glm <- stepAIC(est, trace = FALSE, direction = c("backward"))$coefficients
       var.sel <- names(AIC.glm)
       dat2a <- X.tr[, which(names(coef(est))%in%var.sel)]
       preds.tr0 <- c(H(AIC.glm%*%t(as.matrix(dat2a))))
       mu.tr <- m*preds.tr0
-      pi.tr <- 1-(1 - mu.tr / m)^m
+      pi.tr <- 1 - (1 - mu.tr / m)^m
       y.hat.tr <- mu.tr/pi.tr
       var.hat.tr<-m*preds.tr0*(1 - preds.tr0)/pi.tr - m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
       dat2b <- X.te[,which(names(coef(est))%in%var.sel)]
       preds.te0 <- c(H(AIC.glm%*%t(as.matrix(dat2b))))
       mu.te <- m*preds.te0
-      pi.te <- 1-(1-mu.te / m)^m
+      pi.te <- 1 - (1 - mu.te / m)^m
       y.hat.te <- mu.te/pi.te
       var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te - m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
@@ -568,7 +568,7 @@ while (i<=simn){
       WPL.AIC.MAE.te <- sum((y.te - y.hat.te)^2)/n.te
     }
     
-    if (family == "poisson"){
+    if (family == "poisson") {
       AIC.glm <- stepAIC(est,trace = FALSE, direction = c("backward"))$coefficients
       var.sel <- names(AIC.glm)
       dat2a <- X.tr[, which(names(coef(est))%in%var.sel)]
@@ -597,7 +597,7 @@ while (i<=simn){
   
   # WPL.
   
-  if (family == "binomial"){
+  if (family == "binomial") {
     Y.tr <- cbind(1 - y.wpl.tr, y.wpl.tr)
     est<-try(glmnet(as.matrix(X.tr[, -1]), Y.tr,
                     family = "binomial", weights = m.tilde.star.tr), silent = TRUE)
@@ -605,7 +605,7 @@ while (i<=simn){
   
   if (family == "poisson") est <- try(glmnet(X.tr[, -1], y.tilde.tr, family = "poisson",
                                              offset = log(t.tilde.star.tr)), silent = TRUE)
-  if (class(est)[1] == "try-error"){
+  if (class(est)[1] == "try-error") {
     WPL.GLMNET.SPR.tr <- NA
     WPL.GLMNET.DS.tr <- NA
     WPL.GLMNET.MSE.tr <- NA
@@ -615,15 +615,15 @@ while (i<=simn){
     WPL.GLMNET.MSE.te <- NA
     WPL.GLMNET.MAE.te <- NA
   }
-  if (class(est)[1]!="try-error"){
-    if (family == "binomial"){
+  if (class(est)[1] != "try-error") {
+    if (family == "binomial") {
       weight0.tr <- rep(1, n.tr)
       preds.tr0 <- predict(est,as.matrix(X.tr[, -1]),
                            s = cv.glmnet(as.matrix(X.tr[, -1]), Y.tr, family = "binomial", 
                                          weights = m.tilde.star.tr)$lambda.min,
                            type = "response", newweights = weight0.tr)
       mu.tr <- m*preds.tr0
-      pi.tr <- 1-(1 - mu.tr / m)^m
+      pi.tr <- 1 - (1 - mu.tr / m)^m
       y.hat.tr <- mu.tr/pi.tr
       var.hat.tr <- m*preds.tr0*(1 - preds.tr0)/pi.tr - m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
@@ -633,7 +633,7 @@ while (i<=simn){
                                          weights = m.tilde.star.tr)$lambda.min,
                            type = "response", newweights = weight0.te)
       mu.te <- m*preds.te0
-      pi.te <- 1-(1 - mu.te / m)^m
+      pi.te <- 1 - (1 - mu.te / m)^m
       y.hat.te <- mu.te/pi.te
       var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te-m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
@@ -648,7 +648,7 @@ while (i<=simn){
       WPL.GLMNET.MAE.te <- sum(abs(y.te - y.hat.te))/n.te
     }
     
-    if (family == "poisson"){
+    if (family == "poisson") {
       offset0.tr <- rep(0,n.tr)
       offset0.te <- rep(0,n.te)
       preds.tr0 <- predict(est,X.tr[, -1],
@@ -711,14 +711,14 @@ colnames(b2_mat) <- c("SPR1", "method")
 colnames(b4_mat) <- c("DS2", "method")
 colnames(b5_mat) <- c("SPR2", "method")
 
-if (family == "poisson"){
+if (family == "poisson") {
   my.title1 <- c("Positive-Poisson (training) data")
   my.title2 <- c("Positive-Poisson (training) data")
   my.title4 <- c("Positive-Poisson (test) data")
   my.title5 <- c("Positive-Poisson (test) data")
 }
 
-if (family == "binomial"){
+if (family == "binomial") {
   my.title1 <- c("Positive-binomial (training) data")
   my.title2 <- c("Positive-binomial (training) data")
   my.title4 <- c("Positive-binomial (test) data")

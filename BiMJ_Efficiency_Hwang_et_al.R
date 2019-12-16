@@ -15,7 +15,7 @@ sp <- seq(0.05, 0.95, by = 0.05)
 
 ref <- list()
 
-for(i in 1:length(Ns)){
+for(i in 1:length(Ns)) {
   k <- Ns[i]
   
   bin.plavar <- binpl.avar(sp, k)

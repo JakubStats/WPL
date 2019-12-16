@@ -312,7 +312,7 @@ names(flds)[1:K] <- rep("test", K)
 res.tr <- c() 
 res.te <- c() 
 
-for(kk in 1:K){
+for(kk in 1:K) {
   set.seed(kk + 2018) 
   
   test <- flds[kk]$test   
@@ -433,7 +433,7 @@ for(kk in 1:K){
 
 aa  =  bb <- matrix(0, nrow = nrow(res1), ncol = ncol(res1)) 
 
-for(kk in 1:K){
+for(kk in 1:K) {
   aa <- aa + res.tr[[kk]] 
   bb <- bb + res.te[[kk]] 
 }
