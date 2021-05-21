@@ -103,8 +103,8 @@ VarNhat.glm <- function(m, tau, y = NULL) {
 ```{r, echo=TRUE}
 # Construct PL weights to feed into glm().
 
-R <- y-1
-h <- tau-t1
+R <- y - 1
+h <- tau - t1
 y.p <- R/h
 y.p[is.na(y.p)] <- 0
 
@@ -161,13 +161,13 @@ suppressMessages(library(MASS)) # Load the "MASS" package.
 load(file = "DebTrivedi.rda") # Load the data.
 
 dt <- DebTrivedi[,c(1, 5, 6, 8, 9, 11:19)]
-dt[, 5] <- as.numeric(dt[, 5])-1
-dt[, 7] <- as.numeric(dt[, 7])-1
-dt[, 8] <- as.numeric(dt[, 8])-1
-dt[, 9] <- as.numeric(dt[, 9])-1
-dt[, 12] <- as.numeric(dt[, 12])-1
-dt[, 13] <- as.numeric(dt[, 13])-1
-dt[, 14] <- as.numeric(dt[, 14])-1
+dt[, 5] <- as.numeric(dt[, 5]) - 1
+dt[, 7] <- as.numeric(dt[, 7]) - 1
+dt[, 8] <- as.numeric(dt[, 8]) - 1
+dt[, 9] <- as.numeric(dt[, 9]) - 1
+dt[, 12] <- as.numeric(dt[, 12]) - 1
+dt[, 13] <- as.numeric(dt[, 13]) - 1
+dt[, 14] <- as.numeric(dt[, 14]) - 1
 ```
 
 ### Remove all zero counts from data to create artificial zero-truncated data:

@@ -10,7 +10,7 @@ source("BiMJ_Functions_Hwang_et_al.R")
 
 # Simulation study 1a: Regression models.
 
-# This should match Figure 3 and top of Table 1 in the manscript.
+# This should match Figure 3 and top of Table 1 in the manuscript.
 
 # Generate data, fit models and plot results here.
 
@@ -32,12 +32,12 @@ for(jjj in 1:4) {
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
   
-  if(jjj  ==  1) theta <- c(-1, 1)
-  if(jjj  ==  2) theta <- c(1.5, -0.5)
-  if(jjj  ==  3) theta <- c(-1, 1)
-  if(jjj  ==  4) theta <- c(1.5, -0.5)
-  if(jjj  ==  5) theta <- c(-1, 1)
-  if(jjj  ==  6) theta <- c(1.5, -0.5)
+  if (jjj  ==  1) theta <- c(-1, 1)
+  if (jjj  ==  2) theta <- c(1.5, -0.5)
+  if (jjj  ==  3) theta <- c(-1, 1)
+  if (jjj  ==  4) theta <- c(1.5, -0.5)
+  if (jjj  ==  5) theta <- c(-1, 1)
+  if (jjj  ==  6) theta <- c(1.5, -0.5)
   
   for(n in ns) { 
     print(n)
@@ -48,7 +48,7 @@ for(jjj in 1:4) {
     esttheta.MSE1 <- matrix(NA, simn, length(est.names))
     
     while(i <= simn) {
-      if (jjj == 1 || jjj == 2) x<-rnorm(n)
+      if (jjj == 1 || jjj == 2) x <- rnorm(n)
       
       if (jjj == 3 || jjj == 4) {
         x <- rchisq(n, 3)
@@ -56,7 +56,7 @@ for(jjj in 1:4) {
         x[which(abs(x) > 3)] <- 3
       }
       if (jjj == 5 || jjj == 6) {
-        x <- runif(n, -3, 3)
+        x <- runif (n, -3, 3)
         x <- (x - mean(x))/sd(x)
       }
       
@@ -66,7 +66,7 @@ for(jjj in 1:4) {
       t_i<-c()
       
       for(jj in 1:length(y)) {
-        if (y[jj] == m) {t1 <- 1}
+        if (y[jj] == m) t1 <- 1
         if (y[jj] != m) {
           pty <- choose(m - (1:m), y[jj] - 1)/choose(m, y[jj])
           t1 <- sample(1:m, 1, prob = pty)
@@ -75,10 +75,10 @@ for(jjj in 1:4) {
         t_i <- c(t_i, t1)
       }
       
-      m.tilde <- m-t_i
+      m.tilde <- m - t_i
       
-      m.tilde.star <- m-(m + 1)/(y + 1)
-      y.tilde <- y-1
+      m.tilde.star <- m - (m + 1)/(y + 1)
+      y.tilde <- y - 1
       
       y.pl <- y.tilde/m.tilde
       y.pl[is.na(y.pl)] <- 0
@@ -87,7 +87,7 @@ for(jjj in 1:4) {
       
       # Naive.    
       
-      a1 <- glm(y / m ~ x, weights = rep(m, n), family = binomial)
+      a1 <- glm(y/m ~ x, weights = rep(m, n), family = binomial)
       a1.se <- sqrt(vcov(a1)[2, 2])
       
       # PL.    
@@ -104,12 +104,12 @@ for(jjj in 1:4) {
       
       dat1 <- data.frame(cbind(y, x))
       a4 <- try(vglm(cbind(y, m - y) ~ x, posbinomial, data = dat1), silent = TRUE)
-      if(class(a4) == "try-error") {
+      if (class(a4) == "try-error") {
         VGAM.coef <- NA
         a4.se <- NA
       }
       
-      if(class(a4) != "try-error") {
+      if (class(a4) != "try-error") {
         VGAM.coef <- coef(a4)[2]
         a4.se <- sqrt(vcov(a4)[2, 2])
       }
@@ -119,11 +119,11 @@ for(jjj in 1:4) {
       i <- i+1
     }
     
-    esttheta.bias1 <- 100*apply(abs(esttheta1 - theta[2]) / theta[2], 2, mean.na)
+    esttheta.bias1 <- 100*apply(abs(esttheta1 - theta[2])/theta[2], 2, mean.na)
     esttheta.bias <- rbind(esttheta.bias, esttheta.bias1)
     
     esttheta.MSE1 <- apply((esttheta1 - theta[2])^2, 2, mean.na)
-    esttheta.MSE <- rbind(esttheta.MSE, esttheta.MSE1 / esttheta.MSE1[3])
+    esttheta.MSE <- rbind(esttheta.MSE, esttheta.MSE1/esttheta.MSE1[3])
     
     esttheta.MSE_n <- c(esttheta.MSE_n, c(round(esttheta.MSE1[1], digits = 3),
                                           9, round(esttheta.MSE1[2], digits = 3),
@@ -184,7 +184,7 @@ rm(list = ls())
 
 source("BiMJ_Functions_Hwang_et_al.R")
 
-# This should match Figure 4 and bottom of Table 1 in the manscript.
+# This should match Figure 4 and bottom of Table 1 in the manuscript.
 
 set.seed(20170922)
 
@@ -202,10 +202,10 @@ for(jjj in 1:4) {
   esttheta.MSE <- c()
   esttheta.MSE_n <- c()
   
-  if(jjj == 1) theta <- c(-1, 0.5)
-  if(jjj == 2) theta <- c(0.5, -1)
-  if(jjj == 3) theta <- c(-1, 0.5)
-  if(jjj == 4) theta <- c(0.5, -1)
+  if (jjj == 1) theta <- c(-1, 0.5)
+  if (jjj == 2) theta <- c(0.5, -1)
+  if (jjj == 3) theta <- c(-1, 0.5)
+  if (jjj == 4) theta <- c(0.5, -1)
   
   for(n in ns) {
     print(n)
@@ -216,13 +216,13 @@ for(jjj in 1:4) {
     esttheta.bias1 <- matrix(NA, simn, length(est.names))
     esttheta.MSE1 <- matrix(NA, simn, length(est.names))
     
-    while(i<=simn) {
-      if(jjj == 1 | jjj == 2) {x <- rnorm(n)}
+    while(i <= simn) {
+      if (jjj == 1 | jjj == 2) x <- rnorm(n)
       
-      if(jjj == 3 | jjj == 4) {
+      if (jjj == 3 | jjj == 4) {
         x <- rchisq(n, 3)
         x <- (x - mean(x))/sd(x) 
-        x[which(abs(x)>3)] <- 3
+        x[which(abs(x) > 3)] <- 3
       }
       
       lambda <- exp(theta[1] + theta[2]*x)
@@ -231,13 +231,13 @@ for(jjj in 1:4) {
       t_i <- c()
       
       for(jj in 1:length(y)) {
-        t1 <- min(runif(y[jj]))
+        t1 <- min(runif (y[jj]))
         t_i <- c(t_i, t1)
       }
       
       t.tilde <- 1 - t_i
       t.tilde.star <- y/(y + 1)
-      y.tilde <- y-1
+      y.tilde <- y - 1
       
       # Naive.    
       
@@ -269,14 +269,14 @@ for(jjj in 1:4) {
       
       esttheta1[i, ] <- c(coef(a2)[2], coef(a3)[2], VGAM.coef)
       esttheta.se1[i, ] <- c(a2.se, a3.se, a4.se)
-      i <- i+1
+      i <- i + 1
     }
     
-    esttheta.bias1 <- 100*apply(abs(esttheta1 - theta[2]) / theta[2], 2, mean.na)
+    esttheta.bias1 <- 100*apply(abs(esttheta1 - theta[2])/theta[2], 2, mean.na)
     esttheta.bias <- rbind(esttheta.bias, esttheta.bias1)
     
     esttheta.MSE1 <- apply((esttheta1 - theta[2])^2, 2, mean.na)
-    esttheta.MSE <- rbind(esttheta.MSE, esttheta.MSE1 / esttheta.MSE1[3])
+    esttheta.MSE <- rbind(esttheta.MSE, esttheta.MSE1/esttheta.MSE1[3])
     
     esttheta.MSE_n <- c(esttheta.MSE_n, c(round(esttheta.MSE1[1], digits = 3),
                                           9, round(esttheta.MSE1[2], digits = 3),
@@ -328,7 +328,7 @@ ggplot(data = esttheta.MSE2, aes(y = Rel.MSE, x = model, fill = model)) +
 
 #--------------------------------------------------------------------------------------------------------
 
-# Simulation study 2: Variale selection and prediction.
+# Simulation study 2: Variable selection and prediction.
 
 rm(list = ls())
 
@@ -336,7 +336,7 @@ rm(list = ls())
 
 source("BiMJ_Functions_Hwang_et_al.R")
 
-# These should match Figures 5 and 6 of the manuscript (make sure to toggle with 
+# These should match Figures 5 and 6 of the manuscript (make sure to change/toggle with 
 # the family setting below to get the desired figure).
 
 set.seed(1)
@@ -348,7 +348,7 @@ est.names <- c("MLE-Saturated", "WPL-AIC", "WPL-Elastic Net")
 # Set the family here:
 
 #family <- "binomial"; m <- 10 # Figure 5.
-family <- "poisson"; m<-0  # Figure 6.
+family <- "poisson"; m <- 0  # Figure 6.
 
 n <- 100 # Set the sample size.
 
@@ -369,7 +369,7 @@ MAE2 <- matrix(NA, simn, length(est.names))
 
 i <- 1
 
-while (i<=simn) {
+while (i <= simn) {
   X0 <- matrix(rep(1, n), ncol = 1)
   sigAR <- diag(p)
   sigAR <- 0.5^abs(row(sigAR) - col(sigAR))
@@ -377,7 +377,7 @@ while (i<=simn) {
   X <- as.data.frame(cbind(X0, Xcov))
   
   for(j in 1:p) {
-    colnames(X)[j+1] <- paste("x", j, sep = "")
+    colnames(X)[j + 1] <- paste("x", j, sep = "")
   }
   colnames(X)[1] <- c("(Intercept)")
   X <- as.matrix(X)
@@ -399,15 +399,15 @@ while (i<=simn) {
       }
     }
     
-    if (family == "poisson") t1 <- min(runif(y[jj]))
+    if (family == "poisson") t1 <- min(runif (y[jj]))
     
     t_i <- c(t_i, t1)
   }
   
   if (family == "binomial") {
     m.tilde <- m - t_i
-    m.tilde.star <- m-(m + 1)/(y + 1)
-    y.tilde <- y-1
+    m.tilde.star <- m - (m + 1)/(y + 1)
+    y.tilde <- y - 1
     y.wpl <- y.tilde/m.tilde.star
   }
   
@@ -455,9 +455,9 @@ while (i<=simn) {
   if (family == "binomial") a1 <- try(vglm(cbind(y.tr, m - y.tr) ~ X.tr - 1, 
                                            posbinomial, data = dat1), silent = TRUE)
   if (family == "poisson") a1 <- try(vglm(y.tr ~ X.tr - 1, 
-                                          pospoisson, data = dat1), silent = TRUE)
+                                           pospoisson, data = dat1), silent = TRUE)
   
-  if(class(a1) == "try-error") {
+  if (class(a1) == "try-error") {
     VGAM.SPR.tr <- NA
     VGAM.DS.tr <- NA
     VGAM.MSE.tr <- NA
@@ -476,23 +476,23 @@ while (i<=simn) {
     if (family == "binomial") {
       preds.tr0 <- c(H(coef(a1)%*%t(as.matrix(dat1[, -1]))))
       mu.tr <- m*preds.tr0
-      pi.tr <- 1 - (1 - mu.tr / m)^m
+      pi.tr <- 1 - (1 - mu.tr/m)^m
       y.hat.tr <- mu.tr/pi.tr
       var.hat.tr <- m*preds.tr0*(1 - preds.tr0)/pi.tr-m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
-      VGAM.SPR.tr <- sum((y.tr - y.hat.tr)^2 / (var.hat.tr))/n.tr
-      VGAM.DS.tr <- sum((y.tr - y.hat.tr)^2 / (var.hat.tr) + log(var.hat.tr))/n.tr
+      VGAM.SPR.tr <- sum((y.tr - y.hat.tr)^2/(var.hat.tr))/n.tr
+      VGAM.DS.tr <- sum((y.tr - y.hat.tr)^2/(var.hat.tr) + log(var.hat.tr))/n.tr
       VGAM.MSE.tr <- sum((y.tr - y.hat.tr)^2)/n.tr
       VGAM.MAE.tr <- sum(abs(y.tr - y.hat.tr))/n.tr
       
       preds.te0 <- c(H(coef(a1)%*%t(as.matrix(dat2))))
       mu.te <- m*preds.te0
-      pi.te <- 1 - (1 - mu.te / m)^m
+      pi.te <- 1 - (1 - mu.te/m)^m
       y.hat.te <- mu.te/pi.te
       var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te - m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
-      VGAM.SPR.te <- sum((y.te - y.hat.te)^2 / (var.hat.te))/n.te
-      VGAM.DS.te <- sum((y.te - y.hat.te)^2 / (var.hat.te) + log(var.hat.te))/n.te
+      VGAM.SPR.te <- sum((y.te - y.hat.te)^2/(var.hat.te))/n.te
+      VGAM.DS.te <- sum((y.te - y.hat.te)^2/(var.hat.te) + log(var.hat.te))/n.te
       VGAM.MSE.te <- sum((y.te - y.hat.te)^2)/n.te
       VGAM.MAE.te <- sum(abs(y.te - y.hat.te))/n.te
     }
@@ -511,8 +511,8 @@ while (i<=simn) {
       preds.te <- preds.te0/(1 - exp(-preds.te0))
       var.y.te <- preds.te-preds.te^2*exp(-preds.te0)
       
-      VGAM.SPR.te <- sum((y.te - preds.te)^2 / var.y.te)/n.te
-      VGAM.DS.te <- sum((y.te - preds.te)^2 / var.y.te + log(var.y.te))/n.te
+      VGAM.SPR.te <- sum((y.te - preds.te)^2/var.y.te)/n.te
+      VGAM.DS.te <- sum((y.te - preds.te)^2/var.y.te + log(var.y.te))/n.te
       VGAM.MSE.te <- sum((y.te - preds.te)^2)/n.te
       VGAM.MAE.te <- sum(abs(y.te - preds.te))/n.te
     }
@@ -546,24 +546,24 @@ while (i<=simn) {
       dat2a <- X.tr[, which(names(coef(est))%in%var.sel)]
       preds.tr0 <- c(H(AIC.glm%*%t(as.matrix(dat2a))))
       mu.tr <- m*preds.tr0
-      pi.tr <- 1 - (1 - mu.tr / m)^m
+      pi.tr <- 1 - (1 - mu.tr/m)^m
       y.hat.tr <- mu.tr/pi.tr
       var.hat.tr<-m*preds.tr0*(1 - preds.tr0)/pi.tr - m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
       dat2b <- X.te[,which(names(coef(est))%in%var.sel)]
       preds.te0 <- c(H(AIC.glm%*%t(as.matrix(dat2b))))
       mu.te <- m*preds.te0
-      pi.te <- 1 - (1 - mu.te / m)^m
+      pi.te <- 1 - (1 - mu.te/m)^m
       y.hat.te <- mu.te/pi.te
       var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te - m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
-      WPL.AIC.SPR.tr <- sum((y.tr - y.hat.tr)^2 / var.hat.tr)/n.tr
-      WPL.AIC.DS.tr <- sum((y.tr - y.hat.tr)^2 / var.hat.tr + log(var.hat.tr))/n.tr
+      WPL.AIC.SPR.tr <- sum((y.tr - y.hat.tr)^2/var.hat.tr)/n.tr
+      WPL.AIC.DS.tr <- sum((y.tr - y.hat.tr)^2/var.hat.tr + log(var.hat.tr))/n.tr
       WPL.AIC.MSE.tr <- sum((y.tr - y.hat.tr)^2)/n.tr
       WPL.AIC.MAE.tr <- sum((y.tr - y.hat.tr)^2)/n.tr
       
-      WPL.AIC.SPR.te <- sum(((y.te - y.hat.te))^2 / (var.hat.te))/n.te
-      WPL.AIC.DS.te <- sum(((y.te - y.hat.te))^2 / (var.hat.te) + log(var.hat.te))/n.te
+      WPL.AIC.SPR.te <- sum(((y.te - y.hat.te))^2/(var.hat.te))/n.te
+      WPL.AIC.DS.te <- sum(((y.te - y.hat.te))^2/(var.hat.te) + log(var.hat.te))/n.te
       WPL.AIC.MSE.te <- sum((y.te - y.hat.te)^2)/n.te
       WPL.AIC.MAE.te <- sum((y.te - y.hat.te)^2)/n.te
     }
@@ -581,12 +581,12 @@ while (i<=simn) {
       preds.te <- preds.te0/(1 - exp(-preds.te0))
       var.y.te <- preds.te-preds.te^2*exp(-preds.te0)
       
-      WPL.AIC.SPR.tr <- sum((y.tr - preds.tr)^2 / var.y.tr)/n.tr
-      WPL.AIC.DS.tr <- sum((y.tr - preds.tr)^2 / var.y.tr + log(var.y.tr))/n.tr
+      WPL.AIC.SPR.tr <- sum((y.tr - preds.tr)^2/var.y.tr)/n.tr
+      WPL.AIC.DS.tr <- sum((y.tr - preds.tr)^2/var.y.tr + log(var.y.tr))/n.tr
       WPL.AIC.MSE.tr <- sum((y.tr - preds.tr)^2)/n.tr
       WPL.AIC.MAE.tr <- sum(abs(y.tr - preds.tr))/n.tr
       
-      WPL.AIC.SPR.te <- sum((y.te - preds.te)^2 / var.y.te)/n.te
+      WPL.AIC.SPR.te <- sum((y.te - preds.te)^2/var.y.te)/n.te
       WPL.AIC.DS.te <- sum((y.te - preds.te)^2/var.y.te + log(var.y.te))/n.te
       WPL.AIC.MSE.te <- sum((y.te - preds.te)^2)/n.te
       WPL.AIC.MAE.te <- sum(abs(y.te - preds.te))/n.te
@@ -623,7 +623,7 @@ while (i<=simn) {
                                          weights = m.tilde.star.tr)$lambda.min,
                            type = "response", newweights = weight0.tr)
       mu.tr <- m*preds.tr0
-      pi.tr <- 1 - (1 - mu.tr / m)^m
+      pi.tr <- 1 - (1 - mu.tr/m)^m
       y.hat.tr <- mu.tr/pi.tr
       var.hat.tr <- m*preds.tr0*(1 - preds.tr0)/pi.tr - m^2*preds.tr0^2*(1 - preds.tr0)^m/pi.tr^2
       
@@ -633,17 +633,17 @@ while (i<=simn) {
                                          weights = m.tilde.star.tr)$lambda.min,
                            type = "response", newweights = weight0.te)
       mu.te <- m*preds.te0
-      pi.te <- 1 - (1 - mu.te / m)^m
+      pi.te <- 1 - (1 - mu.te/m)^m
       y.hat.te <- mu.te/pi.te
-      var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te-m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
+      var.hat.te <- m*preds.te0*(1 - preds.te0)/pi.te - m^2*preds.te0^2*(1 - preds.te0)^m/pi.te^2
       
-      WPL.GLMNET.SPR.tr <- sum((y.tr - y.hat.tr)^2 / var.hat.tr)/n.tr
-      WPL.GLMNET.DS.tr <- sum((y.tr - y.hat.tr)^2 / var.hat.tr + log(var.hat.tr))/n.tr
+      WPL.GLMNET.SPR.tr <- sum((y.tr - y.hat.tr)^2/var.hat.tr)/n.tr
+      WPL.GLMNET.DS.tr <- sum((y.tr - y.hat.tr)^2/var.hat.tr + log(var.hat.tr))/n.tr
       WPL.GLMNET.MSE.tr <- sum((y.tr - y.hat.tr)^2)/n.tr
       WPL.GLMNET.MAE.tr <- sum((y.tr - y.hat.tr)^2)/n.tr
       
-      WPL.GLMNET.SPR.te <- sum(((y.te - y.hat.te)^2 / var.hat.te))/n.te
-      WPL.GLMNET.DS.te <- sum((y.te - y.hat.te)^2 / var.hat.te + log(var.hat.te))/n.te
+      WPL.GLMNET.SPR.te <- sum(((y.te - y.hat.te)^2/var.hat.te))/n.te
+      WPL.GLMNET.DS.te <- sum((y.te - y.hat.te)^2/var.hat.te + log(var.hat.te))/n.te
       WPL.GLMNET.MSE.te <- sum((y.te - y.hat.te)^2)/n.te
       WPL.GLMNET.MAE.te <- sum(abs(y.te - y.hat.te))/n.te
     }
@@ -663,16 +663,16 @@ while (i<=simn) {
       preds.tr <- preds.tr0/(1 - exp(-preds.tr0))
       preds.te <- preds.te0/(1 - exp(-preds.te0))
       
-      var.y.tr <- preds.tr-preds.tr^2*exp(-preds.tr0)
-      var.y.te <- preds.te-preds.te^2*exp(-preds.te0)
+      var.y.tr <- preds.tr - preds.tr^2*exp(-preds.tr0)
+      var.y.te <- preds.te - preds.te^2*exp(-preds.te0)
       
-      WPL.GLMNET.SPR.tr <- sum((y.tr - preds.tr)^2 / var.y.tr)/n.tr
-      WPL.GLMNET.DS.tr <- sum((y.tr - preds.tr)^2 / var.y.tr + log(var.y.tr))/n.tr
+      WPL.GLMNET.SPR.tr <- sum((y.tr - preds.tr)^2/var.y.tr)/n.tr
+      WPL.GLMNET.DS.tr <- sum((y.tr - preds.tr)^2/var.y.tr + log(var.y.tr))/n.tr
       WPL.GLMNET.MSE.tr <- sum((y.tr - preds.tr)^2)/n.tr
       WPL.GLMNET.MAE.tr <- sum(abs(y.tr - preds.tr))/n.tr
       
-      WPL.GLMNET.SPR.te <- sum((y.te - preds.te)^2 / var.y.te)/n.te
-      WPL.GLMNET.DS.te <- sum((y.te - preds.te)^2 / var.y.te + log(var.y.te))/n.te
+      WPL.GLMNET.SPR.te <- sum((y.te - preds.te)^2/var.y.te)/n.te
+      WPL.GLMNET.DS.te <- sum((y.te - preds.te)^2/var.y.te + log(var.y.te))/n.te
       WPL.GLMNET.MSE.te <- sum((y.te - preds.te)^2)/n.te
       WPL.GLMNET.MAE.te <- sum(abs(y.te - preds.te))/n.te
     }

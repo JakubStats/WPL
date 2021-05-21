@@ -59,27 +59,27 @@ c(f1, f2, f3) # Frequency of individuals caught exactly x times.
 
 # These results should be the same as Table 2.
 
-female <- which(x.obs==0)
-male <- which(x.obs==1)
+female <- which(x.obs == 0)
+male <- which(x.obs == 1)
 
 # Partial likelihood approach:
 
 # Construct PL weights to feed into glm().
 
 t0 <- t(apply(cap.hist, 1, cumsum))
-t0a <- apply(t0==0, 1, sum)+1
-t1 <- t0a[y>0]
+t0a <- apply(t0 == 0, 1, sum) + 1
+t1 <- t0a[y > 0]
 
-R <- y-1
-h <- tau-t1
+R <- y - 1
+h <- tau - t1
 y.p <- R/h
 y.p[is.na(y.p)] <- 0
 
 p_PL_female <- sum(R[female])/sum(h[female])
 p_PL_male <- sum(R[male])/sum(h[male])
 
-pi_PL_female <- rep((1-(1-p_PL_female)^tau), length(y[female]))
-pi_PL_male <- rep((1-(1-p_PL_male)^tau), length(y[male]))
+pi_PL_female <- rep((1 - (1 - p_PL_female)^tau), length(y[female]))
+pi_PL_male <- rep((1 - (1 - p_PL_male)^tau), length(y[male]))
 
 N_PL_female <- sum(1/pi_PL_female)
 N_PL_male <- sum(1/pi_PL_male)
@@ -97,7 +97,7 @@ N_PL_tot.SE <- sqrt(est.PL_female$Se.Nhat^2 + est.PL_male$Se.Nhat^2)
 
 # Construct WPL weights to feed into glm.
 
-m.tilde.star <- tau - (tau+1)/(y+1)
+m.tilde.star <- tau - (tau + 1)/(y + 1)
 h.wpl <- m.tilde.star
 y.wpl <- R/h.wpl
 y.wpl[is.na(y.wpl)] <- 0
@@ -105,8 +105,8 @@ y.wpl[is.na(y.wpl)] <- 0
 p_WPL_female <- sum(R[female])/sum(m.tilde.star[female])
 p_WPL_male <- sum(R[male])/sum(m.tilde.star[male])
 
-pi_WPL_female <- rep((1-(1-p_WPL_female)^tau), length(y[female]))
-pi_WPL_male <- rep((1-(1-p_WPL_male)^tau), length(y[male]))
+pi_WPL_female <- rep((1 - (1 - p_WPL_female)^tau), length(y[female]))
+pi_WPL_male <- rep((1 - (1 - p_WPL_male)^tau), length(y[male]))
 
 N_WPL_female <- sum(1/pi_WPL_female)
 N_WPL_male <- sum(1/pi_WPL_male)
@@ -135,12 +135,12 @@ N_CL_tot <- N_CL_male + N_CL_female
 
 N_CL_tot.SE <- sqrt(est.CL_female$sd.Nhat^2 + est.CL_male$sd.Nhat^2)
 
-N_ests <- rbind(c(p_PL_female, sqrt(sandwich(est.PL0_female))[1]*est.PL0_female$fitted[1]*(1-est.PL0_female$fitted[1]), 
-                  p_PL_male, sqrt(sandwich(est.PL0_male))[1]*est.PL0_male$fitted[1]*(1-est.PL0_male$fitted[1]), NA, NA), 
-            c(p_WPL_female, sqrt(sandwich(est.WPL0_female))[1]*est.WPL0_female$fitted[1]*(1-est.WPL0_female$fitted[1]), 
-              p_WPL_male, sqrt(sandwich(est.WPL0_male))[1]*est.WPL0_male$fitted[1]*(1-est.WPL0_male$fitted[1]), NA, NA), 
-            c(H(est.CL_female$beta), (est.CL_female$sd.b)*(est.CL_female$pr[1]*(1-est.CL_female$pr[1])), 
-              H(est.CL_male$beta), (est.CL_male$sd.b)*(est.CL_male$pr[1]*(1-est.CL_male$pr[1])), NA, NA), 
+N_ests <- rbind(c(p_PL_female, sqrt(sandwich(est.PL0_female))[1]*est.PL0_female$fitted[1]*(1 - est.PL0_female$fitted[1]), 
+                  p_PL_male, sqrt(sandwich(est.PL0_male))[1]*est.PL0_male$fitted[1]*(1 - est.PL0_male$fitted[1]), NA, NA), 
+            c(p_WPL_female, sqrt(sandwich(est.WPL0_female))[1]*est.WPL0_female$fitted[1]*(1 - est.WPL0_female$fitted[1]), 
+              p_WPL_male, sqrt(sandwich(est.WPL0_male))[1]*est.WPL0_male$fitted[1]*(1 - est.WPL0_male$fitted[1]), NA, NA), 
+            c(H(est.CL_female$beta), (est.CL_female$sd.b)*(est.CL_female$pr[1]*(1 - est.CL_female$pr[1])), 
+              H(est.CL_male$beta), (est.CL_male$sd.b)*(est.CL_male$pr[1]*(1 - est.CL_male$pr[1])), NA, NA), 
             c(N_PL_female, est.PL_female$Se.Nhat, N_PL_male, est.PL_male$Se.Nhat, N_PL_tot, N_PL_tot.SE), 
             c(N_WPL_female, est.WPL_female$Se.Nhat, N_WPL_male, est.WPL_male$Se.Nhat, N_WPL_tot, N_WPL_tot.SE), 
             c(N_CL_female, est.CL_female$sd.Nhat, N_CL_male, est.CL_male$sd.Nhat, N_CL_tot, N_CL_tot.SE))
@@ -159,7 +159,7 @@ N_ests
 # Construct PL weights to feed into glm().
 
 R <- y - 1
-h <- tau-t1
+h <- tau - t1
 y.p <- R/h
 y.p[is.na(y.p)] <- 0
 
@@ -173,7 +173,7 @@ est.PL_Mh <- VarNhat.glm(est.PL_1, tau, y = y)
 
 # Construct WPL weights to feed into glm.
 
-m.tilde.star <- tau-(tau + 1)/(y + 1)
+m.tilde.star <- tau - (tau + 1)/(y + 1)
 h.wpl <- m.tilde.star
 y.wpl <- R/h.wpl
 y.wpl[is.na(y.wpl)] <- 0
@@ -241,7 +241,7 @@ dt[, 14] <- as.numeric(dt[, 14])-1
 
 # Remove all zero counts from data to create artificial zero-truncated data.
 
-dt2 <- dt[-which(dt$ofp == 0), ]
+dt2 <- dt[-which(dt$ofp  ==  0), ]
 
 y <- dt2$ofp
 n <- length(y)
@@ -266,7 +266,7 @@ mod1 <- vglm(y ~ emer + hosp + numchron + adldiff + age + black + gender +
 # Stepwise variable selection using AIC.
 
 t.tilde.star <- y/(y + 1)
-y.tilde <- y-1
+y.tilde <- y - 1
 
 dat2 <- data.frame(cbind(y.tilde, X))
 
@@ -295,8 +295,8 @@ coef(mod1)
 AIC.glm2 
 
 # Results below will be slightly different from the last column of Table 4 because glmnet() uses 
-# cross-validation to select lambda, so the data is randomly split and will consist of 
-# different training/test sets for each fit.
+# cross-validation to select lambda, so the data is randomly split and will consist of different 
+# training/test sets for each fit.
 
 t(mod3.coef)
 
@@ -375,7 +375,7 @@ for(kk in 1:K) {
   var.sel <- names(AIC.glm) 
   dat2a <- X.tr[, which(names(coef(est))%in%var.sel)] 
   preds.tr <- c(exp(AIC.glm%*%t(as.matrix(dat2a)))) 
-  var.y.tr <- preds.tr-preds.tr^2*exp(-preds.tr0) 
+  var.y.tr <- preds.tr - preds.tr^2*exp(-preds.tr0) 
   
   dat2b <- X.te[, which(names(coef(est))%in%var.sel)] 
   preds.te <- c(exp(AIC.glm%*%t(as.matrix(dat2b)))) 
@@ -438,7 +438,7 @@ for(kk in 1:K) {
   bb <- bb + res.te[[kk]] 
 }
 
-# Print results (bottom of Table 4).
+# Print results (bottom of Table 4 of manuscript).
 
 est <- round(rbind(rbind(aa[1, ], bb[1, ])/K, rbind(aa[2, ], bb[2, ])/K), digits = 3)
 

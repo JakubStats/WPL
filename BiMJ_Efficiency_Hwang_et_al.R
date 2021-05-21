@@ -8,7 +8,7 @@ rm(list = ls())
 
 source("BiMJ_Functions_Hwang_et_al.R")
 
-# Positive-binomial models - this should match Figure 1 in the manscript.
+# Positive-binomial models - this should match Figure 1 in the manuscript.
 
 Ns <- c(3, 5, 7, 10, 15, 20, 50, 75, 100)
 sp <- seq(0.05, 0.95, by = 0.05)
@@ -22,7 +22,7 @@ for(i in 1:length(Ns)) {
   bin.pl0avar <- binpl0.avar(sp, k)
   bin.mlavar <- binmle.avar(sp, k)
   
-  bin.ref <- cbind(bin.mlavar / bin.pl0avar, bin.mlavar / bin.plavar)
+  bin.ref <- cbind(bin.mlavar/bin.pl0avar, bin.mlavar/bin.plavar)
   
   ref <- c(ref, list(bin.ref))
 }
@@ -143,7 +143,7 @@ multiplot(p_1, p_2, p_3, p_4, p_5, p_6, p_7, p_8, p_9,
 
 #--------------------------------------------------------------------------------------------------------
 
-# Positive-Poisson models - this should match Figure 2 in the manscript.
+# Positive-Poisson models - this should match Figure 2 in the manuscript.
 
 slam <- seq(0.1, 20, by = 0.1)
 plavar0 <- pl.avar0(slam)
